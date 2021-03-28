@@ -76,6 +76,10 @@ jobs:
           PY_COLORS: "1"
           ANSIBLE_FORCE_COLOR: "1"
 
+      - name: Setup tmate session
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3
+
   lint:
     name: "ansible-lint ${{ matrix.ansible-version }}"
     runs-on: ubuntu-latest
