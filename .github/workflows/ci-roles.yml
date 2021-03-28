@@ -1,6 +1,7 @@
 ---
 name: CI Roles
 on:
+  workflow_dispatch:
   push:
     paths:
       - "roles/**"
