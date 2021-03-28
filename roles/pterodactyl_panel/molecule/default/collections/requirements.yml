@@ -2,8 +2,3 @@ collections:
   # Used by molecule-docker to manage containers
   - name: community.general
   - name: community.docker
-  # For installing MariaDB
-  - name: community.mysql
-
-roles:
-  - name: robertdebock.mysql
