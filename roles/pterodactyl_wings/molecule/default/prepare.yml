@@ -1,0 +1,26 @@
+- hosts: all
+  tasks:
+    - name: Create docker socket symlink
+      file:
+        src: /tmp/docker.sock
+        dest: /var/run/docker.sock
+        state: link
+        owner: root
+        group: root
+        mode: "777"
+
+    - name: Update APT cache
+      apt:
+        update_cache: yes
+      when: ansible_os_family == "Debian"
+
+    - name: Copy existing SSL cert/key to nodes
+      copy:
+        src: "{{ item }}"
+        dest: /etc/ssl/private/
+        owner: root
+        group: root
+        mode: 0755 # this is insecure, don't do this in prod
+      loop:
+        - "pterodactyl.crt"
+        - "pterodactyl.key"

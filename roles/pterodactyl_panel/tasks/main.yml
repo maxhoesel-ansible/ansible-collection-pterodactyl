@@ -1,0 +1,16 @@
+---
+# tasks file for pterodactyl_panel
+- name: Verify that required parameters are set
+  assert:
+    that:
+      - pterodactyl_panel_app_key is defined
+      - pterodactyl_panel_app_key | length > 0
+      - pterodactyl_panel_hashids_salt is defined
+      - pterodactyl_panel_hashids_salt | length > 0
+      - pterodactyl_panel_db_password is defined
+      - pterodactyl_panel_db_password | length > 0
+
+- include: "deps.yml"
+- include: "redis.yml"
+- include: "install.yml"
+- include: "apache2.yml"

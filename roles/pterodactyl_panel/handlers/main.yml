@@ -1,0 +1,11 @@
+---
+# handlers file for pterodactyl_panel
+- name: restart queue service
+  systemd:
+    name: pteroq.service
+    state: restarted
+
+- name: restart apache2
+  systemd:
+    name: apache2
+    state: restarted

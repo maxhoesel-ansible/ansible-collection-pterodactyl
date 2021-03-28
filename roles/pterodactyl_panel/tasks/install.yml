@@ -1,0 +1,104 @@
+- name: pterodactyl_panel_webroot is present
+  file:
+    path: "{{ pterodactyl_panel_webroot }}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: "750"
+
+- name: Check if install is already present
+  stat:
+    path: "{{ pterodactyl_panel_webroot }}/.env"
+  register: pterodactyl_panel_envfile
+
+- name: .env file is installed
+  template:
+    src: env.j2
+    dest: "{{ pterodactyl_panel_webroot }}/.env"
+    owner: www-data
+    group: www-data
+    mode: "600"
+
+- block:
+  - name: Set specific version download URL
+    set_fact:
+      pterodactyl_panel_url: "https://github.com/pterodactyl/panel/releases/download/{{ pterodactyl_panel_version }}/panel.tar.gz"
+    when: pterodactyl_panel_version != "latest"
+  - name: Set latest download URL
+    set_fact:
+      pterodactyl_panel_url: "https://github.com/pterodactyl/panel/releases/latest/download/panel.tar.gz"
+    when: pterodactyl_panel_version == "latest"
+
+  - name: Download and unpack pterodactyl
+    unarchive:
+      src: "{{ pterodactyl_panel_url }}"
+      dest: "{{ pterodactyl_panel_webroot }}"
+      owner: www-data
+      group: www-data
+      remote_src: yes
+
+  - name: Update owner/group for panel webroot
+    file:
+      path: "{{ pterodactyl_panel_webroot }}"
+      owner: www-data
+      group: www-data
+      recurse: yes
+
+  - name: Ensure storage and bootstrap/cache have the correct permissions
+    file:
+      path: "{{ item }}"
+      owner: www-data
+      group: www-data
+      mode: "755"
+      recurse: yes
+    loop:
+      - "{{ pterodactyl_panel_webroot }}/storage"
+      - "{{ pterodactyl_panel_webroot }}/bootstrap/cache"
+
+  - block:
+    - name: Run composer install
+      command: "composer install --no-dev --optimize-autoloader"
+      args:
+        chdir: "{{ pterodactyl_panel_webroot }}"
+    - name: Run artisan migrate
+      command: "php artisan migrate --seed --force"
+      args:
+        chdir: "{{ pterodactyl_panel_webroot }}"
+    become: yes
+    become_user: www-data
+
+  - name: Create initial user
+    command: >
+      php artisan p:user:make
+      --email={{ pterodactyl_panel_admin_mail }}
+      --username={{ pterodactyl_panel_admin_user }}
+      --password={{ pterodactyl_panel_admin_password }}
+      --name-first={{ pterodactyl_panel_admin_firstname }}
+      --name-last={{ pterodactyl_panel_admin_lastname }}
+      --admin=1
+    #no_log: yes
+    args:
+      chdir: "{{ pterodactyl_panel_webroot }}"
+    become: yes
+    become_user: www-data
+  when: not pterodactyl_panel_envfile.stat.exists
+
+- name: Schedule cronjob is present
+  cron:
+    name: "Pterodactyl Panel - Schedule"
+    job: "php {{ pterodactyl_panel_webroot }}/artisan schedule:run >> /dev/null 2>&1"
+
+- name: Queue listener service is installed
+  template:
+    src: pteroq.service.j2
+    dest: /etc/systemd/system/pteroq.service
+    mode: "644"
+    owner: root
+    group: root
+  notify: restart queue service
+
+- name: Queue listener service is enabled
+  systemd:
+    daemon_reload: yes
+    name: pteroq.service
+    enabled: yes

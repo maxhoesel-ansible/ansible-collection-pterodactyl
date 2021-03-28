@@ -1,0 +1,18 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Get running services
+      service_facts:
+
+    - name: Get wings logs
+      command: journalctl -eu wings
+      changed_when: no
+      register: pterodactyl_wings_log
+
+    - name: Verify that wings service is running and enabled
+      assert:
+        that:
+          - 'ansible_facts.services["wings.service"].state == "running" or "dial tcp 127.0.0.1:443: connect: connection refused" in pterodactyl_wings_log.stdout'
+          - ansible_facts.services["wings.service"].status == "enabled"

@@ -1,0 +1,30 @@
+- hosts: all
+  tasks:
+    - name: Update APT cache
+      apt:
+        update_cache: yes
+      when: ansible_os_family == "Debian"
+
+    - name: Setup Mariadb
+      include_role:
+        name: robertdebock.mysql
+      vars:
+        mysql_databases:
+          - name: panel_molecule
+            encoding: utf8
+            collation: utf8_bin
+        mysql_users:
+          - name: panel_molecule
+            password: panel_molecule
+            priv: "panel_molecule.*:ALL"
+
+    - name: Copy existing SSL cert/key to nodes
+      copy:
+        src: "{{ item }}"
+        dest: /etc/ssl/private/
+        owner: root
+        group: root
+        mode: 0755 # this is insecure, don't do this in prod
+      loop:
+        - "pterodactyl.crt"
+        - "pterodactyl.key"

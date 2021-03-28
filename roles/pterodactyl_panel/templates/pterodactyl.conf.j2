@@ -1,0 +1,19 @@
+<VirtualHost *:80>
+  ServerName {{ pterodactyl_panel_domain }}
+  RewriteEngine On
+  RewriteCond %{HTTPS} !=on
+  RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
+</VirtualHost>
+<VirtualHost *:443>
+  ServerName {{ pterodactyl_panel_domain }}
+  DocumentRoot "{{ pterodactyl_panel_webroot }}/public"
+  AllowEncodedSlashes On
+  php_value upload_max_filesize {{ pterodactyl_panel_upload_limit }}
+  php_value post_max_size {{ pterodactyl_panel_upload_limit }}
+  <Directory "{{ pterodactyl_panel_webroot }}/public">
+    AllowOverride all
+  </Directory>
+  SSLEngine on
+  SSLCertificateFile {{ pterodactyl_panel_ssl_cert }}
+  SSLCertificateKeyFile {{ pterodactyl_panel_ssl_key }}
+</VirtualHost>

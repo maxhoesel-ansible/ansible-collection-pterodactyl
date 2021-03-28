@@ -1,0 +1,9 @@
+- name: Redis is installed
+  package:
+    name: redis-server
+
+- name: Redis is running and enabled
+  systemd:
+    name: redis
+    state: started
+    enabled: yes

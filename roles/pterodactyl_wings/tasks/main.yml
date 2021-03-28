@@ -1,0 +1,87 @@
+---
+# tasks file for pterodactyl_wings
+- name: Load OS vars
+  include_vars: "os_{{ ansible_os_family }}.yml"
+
+- name: Docker is installed
+  package:
+    name: "{{ pterodactyl_wings_docker_package }}"
+
+- name: Docker is enabled and running
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Wings config dir exists
+  file:
+    path: "{{ pterodactyl_wings_config_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Set specific version download URL
+  set_fact:
+    pterodactyl_wings_url: "https://github.com/pterodactyl/wings/releases/download/{{ pterodactyl_wings_version }}/wings_linux_amd64"
+  when: pterodactyl_wings_version != "latest"
+- name: Set latest download URL
+  set_fact:
+    pterodactyl_wings_url: "https://github.com/pterodactyl/wings/releases/latest/download/wings_linux_amd64"
+  when: pterodactyl_wings_version == "latest"
+
+- name: Wings is installed
+  get_url:
+    url: "{{ pterodactyl_wings_url }}"
+    dest: /usr/local/bin/wings
+    owner: root
+    group: root
+    mode: "755"
+
+- name: Generate wings configuration
+  set_fact:
+    pterodactyl_wings_config:
+      debug: false
+      uuid: "{{ pterodactyl_wings_uuid }}"
+      token_id: ²{{ pterodactyl_wings_token_id }}"
+      token: "{{ pterodactyl_wings_token }}"
+      api:
+        host: 0.0.0.0
+        port: "{{ pterodactyl_wings_port }}"
+        ssl:
+          enabled: true
+          cert: "{{ pterodactyl_wings_ssl_cert }}"
+          key: "{{ pterodactyl_wings_ssl_key }}"
+        upload_limit: "{{ pterodactyl_wings_upload_limit }}"
+      system:
+        data: "{{ pterodactyl_wings_data_dir }}"
+        sftp:
+          bind_port: "{{ pterodactyl_wings_sftp_port }}"
+      allowed_mounts: "{{ pterodactyl_wings_allowed_mounts }}"
+      remote: "{{ pterodactyl_wings_remote }}"
+- name: Wings config file is installed
+  template:
+    src: config.yml.j2
+    dest: "{{ pterodactyl_wings_config_dir }}/config.yml"
+    owner: root
+    group: root
+    mode: 0640
+  notify: restart wings
+
+- name: Wings service file is present
+  template:
+    src: wings.service.j2
+    dest: /etc/systemd/system/wings.service
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart wings
+
+- name: Wings is enabled and running
+  systemd:
+    daemon_reload: yes
+    name: wings.service
+    enabled: yes
+    state: started
+  tags:
+    - molecule-idempotence-notest

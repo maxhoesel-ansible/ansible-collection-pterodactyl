@@ -1,0 +1,35 @@
+---
+dependency:
+  name: galaxy
+  options:
+    requirements-file: molecule/default/collections/requirements.yml
+    role-file: molecule/default/collections/requirements.yml
+driver:
+  name: docker
+platforms:
+  # Note on containers:
+  # - We use the images provided by geerlingguy, as they provide out-of-the-box
+  #   support for Ansible and systemd (needed to test service management).
+  # - The containers run as privileged containers so that we can
+  #   use systemd functionality. This *should* be possible with unpriliged
+  #   containers as well, but is quite the headache.
+  - name: pterodactyl-panel-ubuntu-20
+    hostname: pterodactyl-panel-ubuntu-20.localdomain
+    image: "geerlingguy/docker-ubuntu2004-ansible"
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    override_command: false
+    pre_build_image: true
+    # Uncomment to access the panel from your machine.
+    # Useful for debugging purposes
+    #published_ports:
+    #  - 0.0.0.0:8443:443/tcp
+
+provisioner:
+  name: ansible
+  config_options:
+    ssh_connection:
+      pipelining: yes
+verifier:
+  name: ansible

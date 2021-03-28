@@ -1,0 +1,14 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include pterodactyl_wings"
+      include_role:
+        name: "pterodactyl_wings"
+      vars:
+        pterodactyl_wings_cert: /etc/ssl/private/pterodactyl.crt
+        pterodactyl_wings_key: /etc/ssl/private/pterodactyl.key
+        # Placeholder values
+        pterodactyl_wings_token: dPigfaWa4I4xcY3o5sM3Hi3ST3duxHqCqu30fc3eO44lPj7msGY6R14YKCR6QZJ2
+        pterodactyl_wings_token_id: m9TVwtaw6FQQZt8H
+        pterodactyl_wings_uuid: 12544f88-cfbf-40b6-9432-a2bc14312112

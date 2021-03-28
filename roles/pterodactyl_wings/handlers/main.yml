@@ -1,0 +1,6 @@
+---
+# handlers file for pterodactyl_wings
+- name: restart wings
+  systemd:
+    name: wings.service
+    state: restarted

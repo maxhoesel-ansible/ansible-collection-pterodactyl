@@ -1,0 +1,17 @@
+# Pterodactyl Queue Worker File
+# ----------------------------------
+
+[Unit]
+Description=Pterodactyl Queue Worker
+After=redis-server.service
+
+[Service]
+# On some systems the user and group might be different.
+# Some systems use `apache` or `nginx` as the user and group.
+User=www-data
+Group=www-data
+Restart=always
+ExecStart=/usr/bin/php {{ pterodactyl_panel_webroot }}/artisan queue:work --queue=high,standard,low --sleep=3 --tries=3
+
+[Install]
+WantedBy=multi-user.target

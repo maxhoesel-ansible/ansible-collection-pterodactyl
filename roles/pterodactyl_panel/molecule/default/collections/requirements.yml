@@ -1,0 +1,7 @@
+collections:
+  # Used by molecule-docker to manage containers
+  - name: community.general
+  - name: community.docker
+
+roles:
+  - name: robertdebock.mysql

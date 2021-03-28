@@ -1,0 +1,19 @@
+---
+pterodactyl_wings_version: latest
+
+pterodactyl_wings_config_dir: /etc/pterodactyl
+
+pterodactyl_wings_remote: "https://127.0.0.1:443"
+#pterodactyl_wings_uuid:
+#pterodactyl_wings_token_id:
+#pterodactyl_wings_token:
+
+pterodactyl_wings_port: 8080
+pterodactyl_wings_ssl_cert: "/etc/letsencrypt/live/{{ ansible_fqdn }}/fullchain.pem"
+pterodactyl_wings_ssl_key: "/etc/letsencrypt/live/{{ ansible_fqdn }}/privkey.pem"
+
+pterodactyl_wings_data_dir: /var/lib/pterodactyl/volumes
+pterodactyl_wings_upload_limit: 100
+
+pterodactyl_wings_sftp_port: 2022
+pterodactyl_wings_allowed_mounts: []

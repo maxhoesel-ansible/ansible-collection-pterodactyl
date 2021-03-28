@@ -1,0 +1,39 @@
+- name: Dependency packages are installed
+  package:
+    name:
+      - apache2
+      - libapache2-mod-php
+      - php-pdo
+      - php-gd
+      - php-mysql
+      - php-pdo
+      - php-mbstring
+      - php-tokenizer
+      - php-bcmath
+      - php-xml
+      - php-curl
+      - php-zip
+      - curl
+      - unzip
+      - git
+      - redis-server
+
+- name: Look for composer executable
+  stat:
+    path: /usr/local/bin/composer
+  register: pterodactyl_panel_composer
+- block:
+  - name: Download composer install script
+    get_url:
+      url: https://getcomposer.org/installer
+      dest: /tmp/composer
+      owner: root
+      group: root
+      mode: "640"
+  - name: Install composer
+    command: php /tmp/composer --install-dir=/usr/local/bin --filename=composer
+  - name: Installer script is absent
+    file:
+      path: /tmp/composer
+      state: absent
+  when: not pterodactyl_panel_composer.stat.exists

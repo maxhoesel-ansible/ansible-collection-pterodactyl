@@ -1,0 +1,3 @@
+---
+# vars file for pterodactyl_wings
+pterodactyl_wings_docker_package: docker-ce

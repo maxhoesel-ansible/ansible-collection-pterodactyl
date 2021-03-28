@@ -1,0 +1,36 @@
+---
+pterodactyl_panel_version: latest
+
+# Apache2
+pterodactyl_panel_webroot: /var/www/pterodactyl
+pterodactyl_panel_domain: "{{ ansible_fqdn }}"
+pterodactyl_panel_ssl_cert: "/etc/letsencrypt/live/{{ pterodactyl_panel_domain }}/fullchain.pem"
+pterodactyl_panel_ssl_key: "/etc/letsencrypt/live/{{ pterodactyl_panel_domain }}/privkey.pem"
+pterodactyl_panel_upload_limit: 100M
+
+#pterodactyl_panel_app_key:
+#pterodactyl_panel_hashids_salt:
+pterodactyl_panel_timezone: America/New_York
+pterodactyl_panel_locale: en
+pterodactyl_panel_egg_author: "no-reply@{{ pterodactyl_panel_domain }}"
+pterodactyl_panel_url: "https://{{ ansible_fqdn }}"
+
+pterodactyl_panel_db_host: "127.0.0.1"
+pterodactyl_panel_db_port: 3306
+pterodactyl_panel_db_name: panel
+pterodactyl_panel_db_user: pterodactyl
+#pterodactyl_panel_db_password:
+
+pterodactyl_panel_mail_host: "127.0.0.1"
+pterodactyl_panel_mail_port: 25
+pterodactyl_panel_mail_user: ""
+pterodactyl_panel_mail_password: ""
+pterodactyl_panel_mail_encryption: ""
+pterodactyl_panel_mail_from: "no-reply@{{ ansible_fqdn }}"
+pterodactyl_panel_mail_from_name: Pterodactyl Panel
+
+pterodactyl_panel_admin_mail: "admin@{{ ansible_fqdn }}"
+pterodactyl_panel_admin_user: admin
+pterodactyl_panel_admin_password: admin
+pterodactyl_panel_admin_firstname: Admin
+pterodactyl_panel_admin_lastname: Admin
