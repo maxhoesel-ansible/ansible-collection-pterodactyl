@@ -6,21 +6,35 @@ dependency:
     role-file: molecule/default/collections/requirements.yml
 driver:
   name: docker
+  network:
+    - name: pterodactyl_panel
+      driver: bridge
 platforms:
-  # Note on containers:
-  # - We use the images provided by geerlingguy, as they provide out-of-the-box
-  #   support for Ansible and systemd (needed to test service management).
-  # - The containers run as privileged containers so that we can
-  #   use systemd functionality. This *should* be possible with unpriliged
-  #   containers as well, but is quite the headache.
-  - name: pterodactyl-panel-ubuntu-20
-    hostname: pterodactyl-panel-ubuntu-20.localdomain
-    image: "geerlingguy/docker-ubuntu2004-ansible"
+  - name: pterodactyl-panel-db
+    hostname: pterodactyl-panel-db.localdomain
+    image: mariadb
+    pre_build_image: true
+    override_command: false
+    env:
+      MYSQL_ROOT_PASSWORD: panel_molecule
+      MYSQL_DATABASE: panel_molecule
+      MYSQL_USER: panel_molecule
+      MYSQL_PASSWORD: panel_molecule
+    networks:
+      - name: pterodactyl_panel
+
+  - name: pterodactyl-panel-${PTERODACTYL_CONTAINER:-ubuntu2004}
+    hostname: pterodactyl-panel-${PTERODACTYL_CONTAINER:-ubuntu2004}.localdomain
+    image: "geerlingguy/docker-${PTERODACTYL_CONTAINER:-ubuntu2004}-ansible"
+    groups:
+      - panel
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: true
     override_command: false
     pre_build_image: true
+    networks:
+      - name: pterodactyl_panel
     # Uncomment to access the panel from your machine.
     # Useful for debugging purposes
     #published_ports:

@@ -1,6 +1,6 @@
 ---
 - name: Verify
-  hosts: all
+  hosts: panel
   gather_facts: false
   tasks:
     - name: Get panel homepage
