@@ -16,6 +16,8 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+          # main is protected, to push to it, we need a PAT from an admin
+          token: ${{ secrets.MAIN_BRANCH_ADMIN_PAT }}
 
       - name: Set up Python
         uses: actions/setup-python@v2
