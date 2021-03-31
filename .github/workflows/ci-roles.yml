@@ -1,6 +1,7 @@
 ---
 name: CI Roles
 on:
+  workflow_dispatch:
   push:
     paths:
       - "roles/**"
@@ -69,7 +70,8 @@ jobs:
           ansible-galaxy collection install maxhoesel-pterodactyl-*.tar.gz --force
 
       - name: Run Molecule tests
-        run: molecule test
+        # Try to run test.sh if it exists, run molecule test if not
+        run: ./molecule/test.sh || molecule test
         working-directory: "pterodactyl/roles/${{ matrix.role }}"
         env:
           PY_COLORS: "1"

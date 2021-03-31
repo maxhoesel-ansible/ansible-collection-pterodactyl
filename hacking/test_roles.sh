@@ -18,5 +18,6 @@ ansible-galaxy collection install maxhoesel-pterodactyl-*.tar.gz
 ansible-lint -vv
 
 for role in roles/*; do
-    (cd "$role" && molecule test)
+    # Try to run test.sh if it exists, run molecule test if not
+    (cd "$role" && (./molecule/test.sh || molecule test))
 done
