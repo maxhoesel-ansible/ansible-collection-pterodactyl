@@ -1,7 +1,7 @@
 # maxhoesel.pterodactyl
 
 ![Release](https://img.shields.io/github/v/release/maxhoesel/ansible-collection-pterodactyl)
-![CI Status (Roles)](https://img.shields.io/github/workflow/status/maxhoesel/ansible-collection-pterodactyl/CI%20Roles/devel)
+![CI Status (Roles)](https://img.shields.io/github/workflow/status/maxhoesel/ansible-collection-pterodactyl/CI%20Roles/main)
 ![License](https://img.shields.io/github/license/maxhoesel/ansible-collection-pterodactyl)
 
 ---
@@ -33,7 +33,6 @@ Install this role via ansible-galaxy:
 `ansible-galaxy collection install maxhoesel.pterodactyl`
 
 You can also install the most recent version of this collection by referencing this repository.
-Note that the devel branch is not considered stable or fit for production:
 
 `ansible-galaxy collection install git+https://github.com/maxhoesel/ansible-collection-pterodactyl`
 
