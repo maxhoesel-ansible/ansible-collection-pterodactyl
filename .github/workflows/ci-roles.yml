@@ -71,7 +71,7 @@ jobs:
 
       - name: Run Molecule tests
         # Try to run test.sh if it exists, run molecule test if not
-        run: ./molecule/test.sh || molecule test
+        run: if [[ -f ./molecule/test.sh ]]; then ./molecule/test.sh; else molecule test; fi
         working-directory: "pterodactyl/roles/${{ matrix.role }}"
         env:
           PY_COLORS: "1"

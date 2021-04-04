@@ -19,5 +19,12 @@ ansible-lint -vv
 
 for role in roles/*; do
     # Try to run test.sh if it exists, run molecule test if not
-    (cd "$role" && (./molecule/test.sh || molecule test))
+    (
+        cd "$role"
+        if [[ -f ./molecule/test.sh ]]; then
+            ./molecule/test.sh
+        else
+            molecule test
+        fi
+    )
 done
