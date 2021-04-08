@@ -23,22 +23,14 @@ it also leaves a trail in the repo for other people to follow in the future.
 
 ### Fork and setup your local environment
 
-To begin development on this collection, you need the following dependencies installed:
+To begin development on this collection, you need to have the following dependencies installed:
 
 - Docker, accessible by your local user account
-- Python 3.6 or higher
+- Python 3.6 or higher. CI tets run specifically against 3.6, but to make things easier we just use whatever version is available locally
+- [Tox](https://tox.readthedocs.io/en/latest/)
 
-Fork the repo and clone it to your local machine, then run `hacking/env_setup.sh`.
-This script will set up a local dev environment for you. In particular, it will:
-
-- Create a virtualenv in hacking/venv/
-- Install all the dev dependencies in it
-- Install and activate commit hooks to lint commit messages and catch common errors
-
-To begin, activate the venv with `. hacking/venv/bin/activate`
-
-If you need to clear the environment for whatever reason, just run
-`deactivate && rm -rf ./hacking/venv`
+Fork the repo and clone it to your local machine, then run `tox -l`.
+You should see a list of environments as created by tox, including an env for every molecule scenario.
 
 ### Make your changes
 
@@ -51,16 +43,25 @@ All commits **must** follow the [conventional-commits standard](https://www.conv
 - Valid scopes are all components of this collection, such as modules or roles
 - The description must be lower-case
 
-Example: `fix(pterodactyl_panel): don't crash during full moon
+Example: `fix(pterodactyl_panel): don't crash during full moon`
+
+The `lint` environment automatically checks previous commit messages for any errors, so as long as you haven't pushed anything yet,
+there is no harm in renaming your commit. Note that the CI will also fail if an invalid commit name is present.
+
+#### Hints for role development
+
+None so far
 
 ### Update Tests and Documentation
 
-We use `molecule` to test all roles and the `ansible-test` suite to rest modules (in the future). In addition to local tests,
-CI jobs are also run on every push/PR against one of the main branches.
+We use `molecule` to test all roles and the `ansible-test` suite to rest modules. In addition to local tests,
+CI jobs are also run on Github
 
-To test your changes locally, follow the steps above and then run either `hacking/test_modules.sh` or `hacking/test_roles.sh`, depending
-on what you changed. These scripts will run a subset of the CI tests in an isolated environment via docker and report any obvious errors back
-to you.
+To run the full test suite, run `./test.sh`. You can inspect the file to see the individual test steps.
+
+Note that you **can't** just run `tox`, as the `sanity` and `integration` environments need extra parameters passed to
+`ansible-test`. Without these, they will fail. In addition, the `tox-ansible` plugin (which automatically generate scenario envs)
+also adds a few unneeded environments to the list, such as `env`.
 
 ### Submitting your Changes
 
@@ -68,8 +69,8 @@ The "Before-opening-a-PR-Checklist":
 
 - Your commit history is clean
 - The documentation is up-to-date
-- All local tests and commit hooks succeed
-- (Rebasing against the current devel before pushing is always a good idea)
+- Your local branch is up-to-date with the remote repo main (if not, rebasing may be required)
+- All local tests succeed
 
 ## Release Workflow
 
