@@ -106,6 +106,24 @@ Prefix for all options: `pterodactyl_panel_admin_`
 | `firstname` | First name of the admin user | | Admin |
 | `lastname` | Last name of the admin user | | Admin |
 
+#### Backups
+
+##### `pterodactyl_panel_backup_enable`
+- Whether to enable the backup system for servers
+- If disabled, no backup settings will be added to the panel configuration file
+- Default: `false`
+
+##### `pterodactyl_panel_backup_driver`
+- The driver to use for backups
+- Default: `s3`
+
+##### S3 Storage
+- `pterodactyl_panel_aws_endpoint: ""`
+- `pterodactyl_panel_aws_default_region: ""`
+- `pterodactyl_panel_aws_access_key_id: ""`
+- `pterodactyl_panel_aws_secret_access_key: ""`
+- `pterodactyl_panel_aws_backups_bucket: ""`
+
 
 ## Example Playbooks
 
