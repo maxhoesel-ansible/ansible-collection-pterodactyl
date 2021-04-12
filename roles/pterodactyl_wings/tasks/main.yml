@@ -43,7 +43,7 @@
     pterodactyl_wings_config:
       debug: false
       uuid: "{{ pterodactyl_wings_uuid }}"
-      token_id: ²{{ pterodactyl_wings_token_id }}"
+      token_id: "{{ pterodactyl_wings_token_id }}"
       token: "{{ pterodactyl_wings_token }}"
       api:
         host: 0.0.0.0
