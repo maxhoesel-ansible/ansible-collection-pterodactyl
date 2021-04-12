@@ -34,3 +34,12 @@ pterodactyl_panel_admin_user: admin
 pterodactyl_panel_admin_password: admin
 pterodactyl_panel_admin_firstname: Admin
 pterodactyl_panel_admin_lastname: Admin
+
+pterodactyl_panel_backup_enable: no
+pterodactyl_panel_backup_driver: s3
+
+pterodactyl_panel_aws_endpoint: ""
+pterodactyl_panel_aws_default_region: ""
+pterodactyl_panel_aws_access_key_id: ""
+pterodactyl_panel_aws_secret_access_key: ""
+pterodactyl_panel_aws_backups_bucket: ""
