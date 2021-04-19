@@ -1,4 +1,10 @@
 
+<a name="v0.1.2"></a>
+## [v0.1.2] - 2021-04-19
+### Bug Fixes
+- **pterodactyl_wings:** properly update config ([#12](https://github.com/maxhoesel/ansible-collection-pterodactyl/issues/12)) ([4afce6e](https://github.com/maxhoesel/ansible-collection-pterodactyl/commit/4afce6e))
+
+
 <a name="v0.1.1"></a>
 ## [v0.1.1] - 2021-04-13
 ### Bug Fixes
@@ -21,4 +27,5 @@
 - initial commit ([804960b](https://github.com/maxhoesel/ansible-collection-pterodactyl/commit/804960b))
 
 
+[v0.1.2]: https://github.com/maxhoesel/ansible-collection-pterodactyl/compare/v0.1.1...v0.1.2
 [v0.1.1]: https://github.com/maxhoesel/ansible-collection-pterodactyl/compare/v0.1.0...v0.1.1
