@@ -23,9 +23,9 @@ platforms:
     networks:
       - name: pterodactyl_panel
 
-  - name: pterodactyl-panel-${PTERODACTYL_CONTAINER:-ubuntu2004}
-    hostname: pterodactyl-panel-${PTERODACTYL_CONTAINER:-ubuntu2004}.localdomain
-    image: "geerlingguy/docker-${PTERODACTYL_CONTAINER:-ubuntu2004}-ansible"
+  - name: pterodactyl-panel-ubuntu-20
+    hostname: pterodactyl-panel-ubuntu-20.localdomain
+    image: "geerlingguy/docker-ubuntu2004-ansible"
     groups:
       - panel
     volumes:
