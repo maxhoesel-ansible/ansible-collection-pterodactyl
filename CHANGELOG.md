@@ -1,4 +1,13 @@
 
+<a name="v0.2.0"></a>
+## [v0.2.0] - 2021-04-25
+### Bug Fixes
+- **pterodactyl_wings:** restart after wings update ([6310e7f](https://github.com/maxhoesel/ansible-collection-pterodactyl/commit/6310e7f))
+
+### Features
+- **pterodactyl_panel:** add auto-upgrade functionality ([d58af77](https://github.com/maxhoesel/ansible-collection-pterodactyl/commit/d58af77))
+
+
 <a name="v0.1.2"></a>
 ## [v0.1.2] - 2021-04-19
 ### Bug Fixes
@@ -27,5 +36,6 @@
 - initial commit ([804960b](https://github.com/maxhoesel/ansible-collection-pterodactyl/commit/804960b))
 
 
+[v0.2.0]: https://github.com/maxhoesel/ansible-collection-pterodactyl/compare/v0.1.2...v0.2.0
 [v0.1.2]: https://github.com/maxhoesel/ansible-collection-pterodactyl/compare/v0.1.1...v0.1.2
 [v0.1.1]: https://github.com/maxhoesel/ansible-collection-pterodactyl/compare/v0.1.0...v0.1.1
