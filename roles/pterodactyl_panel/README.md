@@ -26,8 +26,8 @@ Note that this role will not upgrade an existing installation to a newer version
 ##### `pterodactyl_panel_version`
 - Version of the panel to install
 - Can be a specific tag (e.g. `v1.3.2`) or `latest`
-- Note that this role will **not** upgrade/downgrade an existing installation, even with the version set to `latest`
-- Default: latest
+- Note that the panel will automatically update itself if set to `latest`
+- Default: `latest`
 
 ##### `pterodactyl_panel_webroot`
 - Path in which the panel should be installed
