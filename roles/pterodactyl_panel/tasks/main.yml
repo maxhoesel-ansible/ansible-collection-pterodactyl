@@ -10,7 +10,55 @@
       - pterodactyl_panel_db_password is defined
       - pterodactyl_panel_db_password | length > 0
 
-- include: "deps.yml"
-- include: "redis.yml"
-- include: "install.yml"
-- include: "apache2.yml"
+- name: Install depndencies
+  include_tasks: "deps.yml"
+- name: Install Redis
+  include_tasks: "redis.yml"
+
+- name: pterodactyl_panel_webroot is present
+  file:
+    path: "{{ pterodactyl_panel_webroot }}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: "750"
+
+- name: Detect existing install and check for available upgrade
+  include_tasks: detect_install_upgrade.yml
+
+- name: .env file is installed
+  template:
+    src: env.j2
+    dest: "{{ pterodactyl_panel_webroot }}/.env"
+    owner: www-data
+    group: www-data
+    mode: "600"
+
+- name: Install Panel
+  include_tasks: "install.yml"
+  when: not pterodactyl_panel_envfile.stat.exists
+
+- name: Upgrade Panel version
+  include_tasks: upgrade.yml
+  when: (pterodactyl_panel_detected_version|default(pterodactyl_panel_version) != pterodactyl_panel_version)
+
+- name: Schedule cronjob is present
+  cron:
+    name: "Pterodactyl Panel - Schedule"
+    job: "php {{ pterodactyl_panel_webroot }}/artisan schedule:run >> /dev/null 2>&1"
+
+- name: Queue listener service is installed
+  template:
+    src: pteroq.service.j2
+    dest: /etc/systemd/system/pteroq.service
+    mode: "644"
+    owner: root
+    group: root
+  notify: restart queue service
+- name: Queue listener service is enabled
+  systemd:
+    daemon_reload: yes
+    name: pteroq.service
+    enabled: yes
+
+- include_tasks: "apache2.yml"

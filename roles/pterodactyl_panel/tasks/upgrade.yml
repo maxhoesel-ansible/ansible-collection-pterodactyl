@@ -1,3 +1,10 @@
+- name: Enter maintenance mode # noqa no-changed-when
+  command: php artisan down
+  args:
+    chdir: "{{ pterodactyl_panel_webroot }}"
+  become: yes
+  become_user: www-data
+
 - name: Download and unpack pterodactyl
   unarchive:
     src: "{{ pterodactyl_panel_download_url }}"
@@ -29,20 +36,27 @@
     command: "composer install --no-dev --optimize-autoloader"
     args:
       chdir: "{{ pterodactyl_panel_webroot }}"
-  - name: Run artisan migrate
-    command: "php artisan migrate --seed --force"
+
+  - name: Clear compiled template cache
+    command: "php artisan {{ item }}:clear"
     args:
       chdir: "{{ pterodactyl_panel_webroot }}"
-  - name: Create initial user
-    command: >
-      php artisan p:user:make
-      --email={{ pterodactyl_panel_admin_mail }}
-      --username={{ pterodactyl_panel_admin_user }}
-      --password={{ pterodactyl_panel_admin_password }}
-      --name-first={{ pterodactyl_panel_admin_firstname }}
-      --name-last={{ pterodactyl_panel_admin_lastname }}
-      --admin=1
-    no_log: yes
+    loop:
+      - view
+      - config
+
+  - name: Update database
+    command: php artisan migrate --seed --force
+    args:
+      chdir: "{{ pterodactyl_panel_webroot }}"
+
+  - name: Restart queue workers
+    command: php artisan queue:restart
+    args:
+      chdir: "{{ pterodactyl_panel_webroot }}"
+
+  - name: Exit maintenance mode
+    command: php artisan up
     args:
       chdir: "{{ pterodactyl_panel_webroot }}"
   become: yes
