@@ -37,6 +37,7 @@
     owner: root
     group: root
     mode: "755"
+  notify: restart wings
 
 - name: Generate wings configuration
   set_fact:
