@@ -45,5 +45,21 @@ provisioner:
   config_options:
     ssh_connection:
       pipelining: yes
+
+scenario:
+  test_sequence:
+    - lint
+    - destroy
+    - dependency
+    - syntax
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - check # also run check mode in regular tests
+    - side_effect
+    - verify
+    - destroy
+      
 verifier:
   name: ansible
