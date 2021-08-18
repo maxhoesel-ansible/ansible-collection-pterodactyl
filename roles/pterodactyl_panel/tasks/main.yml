@@ -42,12 +42,41 @@
   include_tasks: upgrade.yml
   when: (pterodactyl_panel_detected_version|default(pterodactyl_panel_version) != pterodactyl_panel_version)
 
-- name: Schedule cronjob is present
+- name: Schedule systemd timer is present
+  copy:
+    src: pterosched.timer
+    dest: /etc/systemd/system/pterosched.timer
+    owner: root
+    group: root
+    mode: "644"
+  notify: restart schedule service
+
+# Schedules used to be run with cron, but we have since switched to systemd timers - make sure the old residue is gone.
+- name: Old Schedule cronjob is absent
   cron:
     name: "Pterodactyl Panel - Schedule"
-    job: "php {{ pterodactyl_panel_webroot }}/artisan schedule:run >> /dev/null 2>&1"
+    state: absent
+  register: _crontab_removal
+  # Debian 11 apparently doesn't ship with crontab, that also means that there can't be a job set up with it.
+  # To prevent having to install crontab just to look for a job that can't exist, we overwrite the error condition
+  failed_when: _crontab_removal.failed and 'Failed to find required executable' not in _crontab_removal.msg
 
-- name: Queue listener service is installed
+- name: Schedule systemd service is present
+  template:
+    src: pterosched.service.j2
+    dest: /etc/systemd/system/pterosched.service
+    mode: "644"
+    owner: root
+    group: root
+  notify: restart schedule service
+- name: Schedule timer is enabled and running
+  systemd:
+    daemon_reload: yes
+    name: pterosched.timer
+    enabled: yes
+    state: started
+
+- name: Queue listener service is present
   template:
     src: pteroq.service.j2
     dest: /etc/systemd/system/pteroq.service

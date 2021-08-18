@@ -2,8 +2,7 @@
 dependency:
   name: galaxy
   options:
-    requirements-file: molecule/default/collections/requirements.yml
-    role-file: molecule/default/collections/requirements.yml
+    requirements-file: molecule/default/requirements.yml
 driver:
   name: docker
 platforms:
@@ -25,6 +24,23 @@ platforms:
   - name: pterodactyl-panel-ubuntu-20
     hostname: pterodactyl-panel-ubuntu-20.localdomain
     image: "geerlingguy/docker-ubuntu2004-ansible"
+    groups:
+      - panel
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    override_command: false
+    pre_build_image: true
+    networks:
+      - name: pterodactyl_panel
+    # Uncomment to access the panel from your machine.
+    # Useful for debugging purposes
+    #published_ports:
+    #  - 0.0.0.0:8443:443/tcp
+
+  - name: pterodactyl-panel-debian-11
+    hostname: pterodactyl-panel-debian-11.localdomain
+    image: "geerlingguy/docker-debian11-ansible"
     groups:
       - panel
     volumes:

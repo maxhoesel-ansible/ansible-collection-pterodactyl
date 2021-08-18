@@ -2,16 +2,17 @@
 
 Install and initialize a pterodactyl panel instance.
 
-This role follows the official installation instructions on the pterodactyl [docs homepage](https://pterodactyl.io/panel/1.0/getting_started.html).
-It will install a webserver (apache2), redis, configure the panel and add an initial admin user (User: `admin`, Password: `admin`, see vars).
+This role mostly follows the official installation instructions on the pterodactyl [docs homepage](https://pterodactyl.io/panel/1.0/getting_started.html), with a few opinionated choices:
+- Usage of a systemd timer instead of crontab for the schedule runs
+- Apache is used as a Webserver
 
-Note that this role will not upgrade an existing installation to a newer version. It only installs and configures a panel server.
+It will install a webserver (apache2), redis, configure the panel and add an initial admin user (User: `admin`, Password: `admin`, see vars).
 
 ## Requirements
 
 - The following distributions are currently supported:
   - Ubuntu 20.04 LTS or newer
-  - Other recent Debian-based distributions should work as well, but are not officially supported.
+  - Debian 11 or newer
 - Make sure that your Distribution comes with a version of PHP that's [compatible with your chosen panel version](https://pterodactyl.io/panel/1.0/updating.html).
   Note that future versions of the panel will require PHP 8.1, which is not yet available on most distros.
 - You need to supply your own MariaDB/MySQL database. See the role vars below for available parameters

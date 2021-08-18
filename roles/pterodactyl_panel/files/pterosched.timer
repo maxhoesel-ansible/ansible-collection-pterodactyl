@@ -1,0 +1,8 @@
+[Unit]
+Description=Run Artisan scheduled jobs for Pterodactyl Panel
+
+[Timer]
+OnCalendar=*-*-* *:*:00
+
+[Install]
+WantedBy=timers.target

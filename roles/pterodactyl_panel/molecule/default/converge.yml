@@ -11,7 +11,7 @@
         pterodactyl_panel_ssl_key: /etc/ssl/private/pterodactyl.key
         pterodactyl_panel_app_key: base64:plc67JdoBykgQPhTJV8BCu1MDAYM0QRbZt93mnh/uyE=
         pterodactyl_panel_hashids_salt: YhQ1W5XhR1cTZGMLK16a
-        pterodactyl_panel_db_host: pterodactyl-panel-db.localdomain
+        pterodactyl_panel_db_host: 127.0.0.1
         pterodactyl_panel_db_name: panel_molecule
         pterodactyl_panel_db_user: panel_molecule
         pterodactyl_panel_db_password: panel_molecule
