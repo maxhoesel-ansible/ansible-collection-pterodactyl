@@ -2,7 +2,11 @@
 name: CI
 on:
   push:
+    branches:
+      - main
   pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
@@ -29,7 +33,7 @@ jobs:
       - name: Build and install collection
         run: |
           ansible-galaxy collection build
-          ansible-galaxy collection install maxhoesel-smallstep-*.tar.gz
+          ansible-galaxy collection install maxhoesel-*.tar.gz
 
       - name: ansible-lint
         env:
@@ -67,10 +71,10 @@ jobs:
 #        run: tox -e integration -- --docker --color -v --python 3.6
 
 
-  discover-roles:
+  discover-scenarios:
     runs-on: ubuntu-latest
     outputs:
-      roles: ${{ steps.set-roles.outputs.roles }}
+      scenarios: ${{ steps.set-scenarios.outputs.scenarios }}
     steps:
       - name: Check out codebase
         uses: actions/checkout@v2
