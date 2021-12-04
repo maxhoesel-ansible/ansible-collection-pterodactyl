@@ -36,7 +36,7 @@ This role follows the official installation instructions on the pterodactyl [doc
 - If set to `distro`, the Docker version provided by the distribution will be installed
 - If set to `stable`, the most recent stable version form the official Docker repositories will be installed
 - If this value is changed later, the role will automatically switch the installed Docker version. Note that this may cause downtime
-- Default: `distro`
+- Default: `stable`
 
 ### Wings Configuration
 
