@@ -19,4 +19,4 @@ pterodactyl_wings_sftp_port: 2022
 pterodactyl_wings_allowed_mounts: []
 
 pterodactyl_wings_docker_install: true
-pterodactyl_wings_docker_source: distro
+pterodactyl_wings_docker_source: stable
