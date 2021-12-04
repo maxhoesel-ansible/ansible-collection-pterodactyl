@@ -9,8 +9,10 @@
         group: root
         mode: "777"
 
-    - name: Update APT cache
+    - name: Update APT cache and install required packages
       apt:
+        name:
+          - tzdata
         update_cache: yes
       when: ansible_os_family == "Debian"
 
