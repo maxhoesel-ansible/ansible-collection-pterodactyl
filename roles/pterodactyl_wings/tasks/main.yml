@@ -1,17 +1,8 @@
 ---
 # tasks file for pterodactyl_wings
-- name: Load OS vars
-  include_vars: "os_{{ ansible_os_family }}.yml"
-
-- name: Docker is installed
-  package:
-    name: "{{ pterodactyl_wings_docker_package }}"
-
-- name: Docker is enabled and running
-  systemd:
-    name: docker
-    state: started
-    enabled: yes
+- name: Install docker
+  include_tasks: "docker.yml"
+  when: pterodactyl_wings_docker_install
 
 - name: Wings config dir exists
   file:

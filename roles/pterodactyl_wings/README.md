@@ -26,6 +26,18 @@ This role follows the official installation instructions on the pterodactyl [doc
 - Directory in which the config file is stored
 - Default: `/etc/pterodactyl`
 
+##### `pterodactyl_wings_docker_install`
+- Whether to handle the docker installation.
+- Set to `false` if you already have a docker install running and don't want this role to touch anything
+- Default: `true`
+
+##### `pterodactyl_wings_docker_source`
+- Method used to install docker
+- If set to `distro`, the Docker version provided by the distribution will be installed
+- If set to `stable`, the most recent stable version form the official Docker repositories will be installed
+- If this value is changed later, the role will automatically switch the installed Docker version. Note that this may cause downtime
+- Default: `distro`
+
 ### Wings Configuration
 
 Prefix for all variables: `pterodactyl_wings_`
