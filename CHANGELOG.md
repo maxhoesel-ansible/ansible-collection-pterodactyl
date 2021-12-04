@@ -1,4 +1,18 @@
 
+<a name="v0.3.0"></a>
+## [v0.3.0] - 2021-12-04
+### Bug Fixes
+- support --check mode for roles once configured ([#15](https://github.com/maxhoesel/ansible-collection-pterodactyl/issues/15)) ([8422fe7](https://github.com/maxhoesel/ansible-collection-pterodactyl/commit/8422fe7)) [Max Hösel]
+
+### Documentation
+- add author names to changelog ([d92cea2](https://github.com/maxhoesel/ansible-collection-pterodactyl/commit/d92cea2)) [Max Hösel]
+- update contribution docs ([8637720](https://github.com/maxhoesel/ansible-collection-pterodactyl/commit/8637720)) [Max Hösel]
+
+### Features
+- **pterodactyl_wings:** switch to docker.com repos by default ([60b2f7f](https://github.com/maxhoesel/ansible-collection-pterodactyl/commit/60b2f7f)) [Max Hösel]
+- **pterodactyl_wings:** allow docker installation from docker.com repo ([7b83e4b](https://github.com/maxhoesel/ansible-collection-pterodactyl/commit/7b83e4b)) [Max Hösel]
+
+
 <a name="v0.2.0"></a>
 ## [v0.2.0] - 2021-04-25
 ### Bug Fixes
@@ -36,6 +50,7 @@
 - initial commit ([804960b](https://github.com/maxhoesel/ansible-collection-pterodactyl/commit/804960b)) [Max Hösel]
 
 
+[v0.3.0]: https://github.com/maxhoesel/ansible-collection-pterodactyl/compare/v0.2.0...v0.3.0
 [v0.2.0]: https://github.com/maxhoesel/ansible-collection-pterodactyl/compare/v0.1.2...v0.2.0
 [v0.1.2]: https://github.com/maxhoesel/ansible-collection-pterodactyl/compare/v0.1.1...v0.1.2
 [v0.1.1]: https://github.com/maxhoesel/ansible-collection-pterodactyl/compare/v0.1.0...v0.1.1
