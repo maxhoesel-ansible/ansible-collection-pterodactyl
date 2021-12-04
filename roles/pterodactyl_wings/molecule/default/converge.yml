@@ -6,6 +6,7 @@
       include_role:
         name: "pterodactyl_wings"
       vars:
+        pterodactyl_wings_docker_source: stable
         pterodactyl_wings_cert: /etc/ssl/private/pterodactyl.crt
         pterodactyl_wings_key: /etc/ssl/private/pterodactyl.key
         # Placeholder values

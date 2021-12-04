@@ -1,0 +1,8 @@
+_pterodactyl_wings_docker_distro_packages:
+  - docker.io
+  - containerd
+  - runc
+_pterodactyl_wings_docker_stable_packages:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
