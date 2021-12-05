@@ -1,4 +1,10 @@
 
+<a name="v0.4.0"></a>
+## [v0.4.0] - 2021-12-05
+### Features
+- **pterodactyl_wings:** use new config layout ([#23](https://github.com/maxhoesel/ansible-collection-pterodactyl/issues/23)) ([71b8e5a](https://github.com/maxhoesel/ansible-collection-pterodactyl/commit/71b8e5a)) [Max Hösel]
+
+
 <a name="v0.3.0"></a>
 ## [v0.3.0] - 2021-12-04
 ### Bug Fixes
@@ -50,6 +56,7 @@
 - initial commit ([804960b](https://github.com/maxhoesel/ansible-collection-pterodactyl/commit/804960b)) [Max Hösel]
 
 
+[v0.4.0]: https://github.com/maxhoesel/ansible-collection-pterodactyl/compare/v0.3.0...v0.4.0
 [v0.3.0]: https://github.com/maxhoesel/ansible-collection-pterodactyl/compare/v0.2.0...v0.3.0
 [v0.2.0]: https://github.com/maxhoesel/ansible-collection-pterodactyl/compare/v0.1.2...v0.2.0
 [v0.1.2]: https://github.com/maxhoesel/ansible-collection-pterodactyl/compare/v0.1.1...v0.1.2
