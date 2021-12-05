@@ -30,27 +30,6 @@
     mode: "755"
   notify: restart wings
 
-- name: Generate wings configuration
-  set_fact:
-    pterodactyl_wings_config:
-      debug: false
-      uuid: "{{ pterodactyl_wings_uuid }}"
-      token_id: "{{ pterodactyl_wings_token_id }}"
-      token: "{{ pterodactyl_wings_token }}"
-      api:
-        host: 0.0.0.0
-        port: "{{ pterodactyl_wings_port }}"
-        ssl:
-          enabled: true
-          cert: "{{ pterodactyl_wings_ssl_cert }}"
-          key: "{{ pterodactyl_wings_ssl_key }}"
-        upload_limit: "{{ pterodactyl_wings_upload_limit }}"
-      system:
-        data: "{{ pterodactyl_wings_data_dir }}"
-        sftp:
-          bind_port: "{{ pterodactyl_wings_sftp_port }}"
-      allowed_mounts: "{{ pterodactyl_wings_allowed_mounts }}"
-      remote: "{{ pterodactyl_wings_remote }}"
 - name: Look for existing config file
   stat:
     path: "{{ pterodactyl_wings_config_dir }}/config.yml"
@@ -64,7 +43,7 @@
       check_mode: no
     - name: Merge existing configuration new config
       set_fact:
-        pterodactyl_wings_config: "{{ _pterodactyl_wings_config_current.stdout|from_yaml | combine(pterodactyl_wings_config, recursive=True, list_merge='keep') }}"
+        pterodactyl_wings_config: "{{ _pterodactyl_wings_config_current.stdout|from_yaml | combine(pterodactyl_wings_config, recursive=True) }}"
   when: _pterodactyl_wings_config_file.stat.exists
 
 - name: Wings config file is installed
