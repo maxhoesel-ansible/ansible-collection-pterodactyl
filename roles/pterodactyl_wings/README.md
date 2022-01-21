@@ -8,6 +8,7 @@ This role follows the official installation instructions on the pterodactyl [doc
 
 - The following distributions are currently supported:
   - Ubuntu 18.04 LTS or newer
+  - Newer debian distros should work too
   - There are no plans to support CentOS/RHEL-based distros right now
 - This role requires root access. Make sure to run this role with `become: yes` or equivalent
 - Docker is required to run Wings. If docker is not present, this role will install it automatically
@@ -39,6 +40,24 @@ This role follows the official installation instructions on the pterodactyl [doc
 - If set to `stable`, the most recent stable version form the official Docker repositories will be installed
 - If this value is changed later, the role will automatically switch the installed Docker version. Note that this may cause downtime
 - Default: `stable`
+
+##### `pterodactyl_wings_docker_ipv6`
+- Whether to enable IPv6 support in docker using [docker-ipv6NAT](https://github.com/robbertkl/docker-ipv6nat#usage).
+  This allows you to connect to your containers using IPv6, as long as you have a correct allocation in pterodactyl
+  (0.0.0.0 works for me). See [this comment](https://github.com/pterodactyl/panel/issues/1778#issuecomment-619457907) for more details.
+- **WARNING**: Enabling IPv6 support using this approach requires a reboot - the role will perform this automatically.
+  **This may cause some downtime on the first run**.
+- Due to the "hacky" nature of this approach, it is disabled by default
+- Default: `false`
+
+##### `pterodactyl_wings_docker_ipv6_cidr`
+- CIDR range to use for the internal IPv6 ULA addresses
+- Has no effect if `pterodactyl_wings_docker_ipv6` is disabled
+- Default: `"fd00::/80"`
+
+##### `pterodactyl_wings_docker_ipv6nat_version`
+- Use the specified ipv6nat container tag
+- Default: `latest`
 
 ### Wings Configuration
 

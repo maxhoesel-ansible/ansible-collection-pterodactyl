@@ -4,3 +4,11 @@
   systemd:
     name: wings.service
     state: restarted
+
+- name: reload docker
+  systemd:
+    name: docker.service
+    state: reloaded
+
+- name: restart host
+  reboot:

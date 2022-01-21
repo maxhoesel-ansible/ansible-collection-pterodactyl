@@ -1,0 +1,52 @@
+- name: Look for existing daemon.json
+  stat:
+    path: /etc/docker/daemon.json
+  register: _pterodactyl_wings_docker_daemon_config_file
+
+- name: Get existing daemon.json
+  command: cat /etc/docker/daemon.json
+  register: _pterodactyl_wings_docker_daemon_config
+  when: _pterodactyl_wings_docker_daemon_config_file.stat.exists
+
+- name: Apply required configuration options
+  set_fact:
+    _pterodactyl_wings_docker_daemon_config: "{{ current_config | combine(ipv6_config) }}"
+  vars:
+    current_config: "{{ _pterodactyl_wings_docker_daemon_config is skipped | ternary({}, (_pterodactyl_wings_docker_daemon_config.stdout)|d('{}')|from_json) }}"
+    ipv6_config:
+      userland-proxy: false
+      ipv6: true
+      fixed-cidr-v6: "{{ pterodactyl_wings_docker_ipv6_cidr }}"
+
+- name: Docker config directory exists
+  file:
+    path: /etc/docker
+    state: directory
+    owner: root
+    group: root
+    mode: "644"
+
+- name: daemon.json is present
+  copy:
+    content: "{{ _pterodactyl_wings_docker_daemon_config | to_nice_json }}"
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: "644"
+  notify: reload docker
+
+- name: ipv6NAT container unit file is present
+  template:
+    src: docker-ipv6nat.service.j2
+    dest: /etc/systemd/system/docker-ipv6nat.service
+    owner: root
+    group: root
+    mode: "644"
+
+- name: ipv6NAT unit is enabled and started
+  systemd:
+    name: docker-ipv6nat.service
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  notify: restart host
