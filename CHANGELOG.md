@@ -1,4 +1,10 @@
 
+<a name="v0.4.1"></a>
+## [v0.4.1] - 2022-01-21
+### Features
+- **pterodactyl_wings:** add ipv6 support (opt-in) ([#24](https://github.com/maxhoesel/ansible-collection-pterodactyl/issues/24)) ([bfbccb1](https://github.com/maxhoesel/ansible-collection-pterodactyl/commit/bfbccb1)) [Max Hösel]
+
+
 <a name="v0.4.0"></a>
 ## [v0.4.0] - 2021-12-05
 ### Features
@@ -56,6 +62,7 @@
 - initial commit ([804960b](https://github.com/maxhoesel/ansible-collection-pterodactyl/commit/804960b)) [Max Hösel]
 
 
+[v0.4.1]: https://github.com/maxhoesel/ansible-collection-pterodactyl/compare/v0.4.0...v0.4.1
 [v0.4.0]: https://github.com/maxhoesel/ansible-collection-pterodactyl/compare/v0.3.0...v0.4.0
 [v0.3.0]: https://github.com/maxhoesel/ansible-collection-pterodactyl/compare/v0.2.0...v0.3.0
 [v0.2.0]: https://github.com/maxhoesel/ansible-collection-pterodactyl/compare/v0.1.2...v0.2.0
