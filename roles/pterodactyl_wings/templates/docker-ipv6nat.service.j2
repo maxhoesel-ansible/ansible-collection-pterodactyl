@@ -1,0 +1,13 @@
+[Unit]
+Description=IPv6 NAT for Docker containers
+After=docker.service
+Requires=docker.service
+PartOf=docker.service
+
+[Service]
+User=root
+ExecStart=/usr/bin/docker run --rm --name ipv6nat --privileged --network host -v /var/run/docker.sock:/var/run/docker.sock:ro -v /lib/modules:/lib/modules:ro robbertkl/ipv6nat:{{ pterodactyl_wings_docker_ipv6nat_version}}
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

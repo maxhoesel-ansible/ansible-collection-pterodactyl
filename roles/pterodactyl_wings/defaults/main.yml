@@ -27,3 +27,6 @@ pterodactyl_wings_config:
 
 pterodactyl_wings_docker_install: true
 pterodactyl_wings_docker_source: stable
+pterodactyl_wings_docker_ipv6: false
+pterodactyl_wings_docker_ipv6_cidr: "fd00::/80"
+pterodactyl_wings_docker_ipv6nat_version: "latest"

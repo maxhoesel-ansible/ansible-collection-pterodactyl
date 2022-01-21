@@ -1,6 +1,10 @@
 - name: Install docker from {{ pterodactyl_wings_docker_source }}
   include_tasks: "docker_{{ pterodactyl_wings_docker_source }}.yml"
 
+- name: Enable IPv6 suppport
+  include_tasks: docker_ipv6.yml
+  when: pterodactyl_wings_docker_ipv6
+
 - name: Docker is enabled and running
   systemd:
     name: docker
