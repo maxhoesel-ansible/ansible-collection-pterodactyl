@@ -30,7 +30,7 @@
       owner: root
       group: root
       mode: "640"
-  - name: Install composer
+  - name: Install composer # noqa no-changed-when
     command: php /tmp/composer --install-dir=/usr/local/bin --filename=composer
   - name: Installer script is absent
     file:

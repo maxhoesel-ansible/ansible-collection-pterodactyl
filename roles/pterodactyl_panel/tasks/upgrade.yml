@@ -32,12 +32,12 @@
     - "{{ pterodactyl_panel_webroot }}/bootstrap/cache"
 
 - block:
-  - name: Run composer install
+  - name: Run composer install # noqa no-changed-when
     command: "composer install --no-dev --optimize-autoloader"
     args:
       chdir: "{{ pterodactyl_panel_webroot }}"
 
-  - name: Clear compiled template cache
+  - name: Clear compiled template cache # noqa no-changed-when
     command: "php artisan {{ item }}:clear"
     args:
       chdir: "{{ pterodactyl_panel_webroot }}"
@@ -45,17 +45,17 @@
       - view
       - config
 
-  - name: Update database
+  - name: Update database # noqa no-changed-when
     command: php artisan migrate --seed --force
     args:
       chdir: "{{ pterodactyl_panel_webroot }}"
 
-  - name: Restart queue workers
+  - name: Restart queue workers # noqa no-changed-when
     command: php artisan queue:restart
     args:
       chdir: "{{ pterodactyl_panel_webroot }}"
 
-  - name: Exit maintenance mode
+  - name: Exit maintenance mode # noqa no-changed-when
     command: php artisan up
     args:
       chdir: "{{ pterodactyl_panel_webroot }}"
