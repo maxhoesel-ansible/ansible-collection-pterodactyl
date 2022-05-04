@@ -25,15 +25,15 @@
     - "{{ pterodactyl_panel_webroot }}/bootstrap/cache"
 
 - block:
-  - name: Run composer install
+  - name: Run composer install # noqa no-changed-when
     command: "composer install --no-dev --optimize-autoloader"
     args:
       chdir: "{{ pterodactyl_panel_webroot }}"
-  - name: Run artisan migrate
+  - name: Run artisan migrate # noqa no-changed-when
     command: "php artisan migrate --seed --force"
     args:
       chdir: "{{ pterodactyl_panel_webroot }}"
-  - name: Create initial user
+  - name: Create initial user # noqa no-changed-when
     command: >
       php artisan p:user:make
       --email={{ pterodactyl_panel_admin_mail }}
