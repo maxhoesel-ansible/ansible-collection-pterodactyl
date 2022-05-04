@@ -23,7 +23,7 @@ for v1.0 becomes available.
 
 ### Dependencies
 
-- A recent version of ansible. We test against the current and the 2 previous major releases
+- A recent version of ansible. We test against the current and the previous major release
 - Python 3.6 or newer on remote hosts and the controller
 
 ### Install via ansible-galaxy
