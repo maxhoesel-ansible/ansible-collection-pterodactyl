@@ -60,6 +60,6 @@ scenario:
     - side_effect
     - verify
     - destroy
-      
+
 verifier:
   name: ansible

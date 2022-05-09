@@ -53,9 +53,9 @@ issues: https://github.com/maxhoesel/ansible-collection-pterodactyl/issues
 # uses 'fnmatch' to match the files or directories. Some directories and files like 'galaxy.yml', '*.pyc', '*.retry',
 # and '.git' are always filtered
 build_ignore:
-    - "hacking"
-    - "*-pterodactyl-*.tar.gz"
+    - "*.tar.gz"
+    - ".venv"
     - ".github"
-    - ".gitlint"
-    - ".pre-commit-config.yaml"
-    - ".chglog"
+    - ".tox"
+    - ".pytest_cache"
+    - "scripts"

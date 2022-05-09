@@ -1,4 +1,5 @@
-- block:
+- name: Get latest panel version
+  block:
     - name: Get latest panel release information
       uri:
         url: https://api.github.com/repos/pterodactyl/panel/releases/latest
@@ -24,7 +25,8 @@
     path: "{{ pterodactyl_panel_webroot }}/.env"
   register: pterodactyl_panel_envfile
 
-- block:
+- name: Detect and verify installed version
+  block:
     - name: Get currently installed version
       shell: 'cat {{ pterodactyl_panel_webroot }}/config/app.php  | grep "''version'' =>" | cut -d "''" -f 4'
       changed_when: no

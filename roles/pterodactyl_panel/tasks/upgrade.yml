@@ -31,7 +31,8 @@
     - "{{ pterodactyl_panel_webroot }}/storage"
     - "{{ pterodactyl_panel_webroot }}/bootstrap/cache"
 
-- block:
+- name: Run composer and artisan commands
+  block:
   - name: Run composer install # noqa no-changed-when
     command: "composer install --no-dev --optimize-autoloader"
     args:

@@ -3,7 +3,7 @@
   hosts: panel
   gather_facts: false
   tasks:
-    - name: Get panel homepage
+    - name: Get panel homepage # noqa risky-file-permissions
       get_url:
         url: https://127.0.0.1
         dest: /tmp/index.html
