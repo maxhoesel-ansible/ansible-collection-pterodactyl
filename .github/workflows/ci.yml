@@ -18,7 +18,7 @@ jobs:
     if: github.event_name == 'push' || github.event_name == 'pull_request'
     steps:
       - name: Check out codebase
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Set up Python 3
@@ -36,7 +36,7 @@ jobs:
       scenarios: ${{ steps.set-scenarios.outputs.scenarios }}
     steps:
       - name: Check out codebase
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Set up Python 3
         uses: actions/setup-python@v3
       - name: Set up pip and install requirements
@@ -64,7 +64,7 @@ jobs:
         role: ${{ fromJson(needs.discover-scenarios.outputs.scenarios) }}
     steps:
       - name: Check out codebase
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Set up Python 3
         uses: actions/setup-python@v3
       - name: Set up pip and install requirements
@@ -91,7 +91,7 @@ jobs:
       - roles
     steps:
       - name: Check out codebase
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Set up Python
         uses: actions/setup-python@v3
       - name: Set up pip and install requirements
