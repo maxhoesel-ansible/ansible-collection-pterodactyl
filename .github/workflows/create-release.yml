@@ -20,7 +20,7 @@ jobs:
           token: ${{ secrets.MAIN_BRANCH_ADMIN_PAT }}
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3
       - name: Install dependencies
         run: |
           mkdir ./tmp-chglog
