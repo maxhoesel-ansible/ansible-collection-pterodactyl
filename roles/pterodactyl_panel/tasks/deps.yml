@@ -22,7 +22,8 @@
   stat:
     path: /usr/local/bin/composer
   register: pterodactyl_panel_composer
-- block:
+- name: Install composer
+  block:
   - name: Download composer install script
     get_url:
       url: https://getcomposer.org/installer

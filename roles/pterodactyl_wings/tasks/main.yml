@@ -35,7 +35,8 @@
     path: "{{ pterodactyl_wings_config_dir }}/config.yml"
   register: _pterodactyl_wings_config_file
 
-- block:
+- name: Generate Wings Config
+  block:
     - name: Read current configuration
       command: "cat {{ pterodactyl_wings_config_dir }}/config.yml"
       register: _pterodactyl_wings_config_current
