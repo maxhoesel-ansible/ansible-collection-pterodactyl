@@ -44,7 +44,7 @@
       check_mode: no
     - name: Merge existing configuration new config
       set_fact:
-        pterodactyl_wings_config: "{{ _pterodactyl_wings_config_current.stdout|from_yaml | combine(pterodactyl_wings_config, recursive=True) }}"
+        pterodactyl_wings_config: "{{ _pterodactyl_wings_config_current.stdout | from_yaml | combine(pterodactyl_wings_config, recursive=True) }}"
   when: _pterodactyl_wings_config_file.stat.exists
 
 - name: Wings config file is installed

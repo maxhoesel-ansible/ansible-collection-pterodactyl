@@ -12,7 +12,7 @@
   set_fact:
     _pterodactyl_wings_docker_daemon_config: "{{ current_config | combine(ipv6_config) }}"
   vars:
-    current_config: "{{ _pterodactyl_wings_docker_daemon_config is skipped | ternary({}, (_pterodactyl_wings_docker_daemon_config.stdout)|d('{}')|from_json) }}"
+    current_config: "{{ _pterodactyl_wings_docker_daemon_config is skipped | ternary({}, (_pterodactyl_wings_docker_daemon_config.stdout) | d('{}') | from_json) }}"
     ipv6_config:
       userland-proxy: false
       ipv6: true
