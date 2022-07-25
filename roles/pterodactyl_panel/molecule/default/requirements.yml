@@ -4,4 +4,4 @@ collections:
   - name: community.docker
 
 roles:
-  - geerlingguy.mysql
+  - name: geerlingguy.mysql

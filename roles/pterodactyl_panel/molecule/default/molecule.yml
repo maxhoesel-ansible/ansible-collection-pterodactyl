@@ -6,21 +6,6 @@ dependency:
 driver:
   name: docker
 platforms:
-  - name: pterodactyl-panel-db
-    hostname: pterodactyl-panel-db.localdomain
-    image: mariadb
-    pre_build_image: true
-    override_command: false
-    env:
-      MYSQL_ROOT_PASSWORD: panel_molecule
-      MYSQL_DATABASE: panel_molecule
-      MYSQL_USER: panel_molecule
-      MYSQL_PASSWORD: panel_molecule
-    docker_networks:
-      - name: pterodactyl_panel
-    networks:
-      - name: pterodactyl_panel
-
   - name: pterodactyl-panel-ubuntu-20
     hostname: pterodactyl-panel-ubuntu-20.localdomain
     image: "geerlingguy/docker-ubuntu2004-ansible"

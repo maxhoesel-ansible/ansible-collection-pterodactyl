@@ -49,7 +49,7 @@
     owner: root
     group: root
     mode: "644"
-  notify: restart schedule service
+  notify: Restart schedule service
 
 # Schedules used to be run with cron, but we have since switched to systemd timers - make sure the old residue is gone.
 - name: Old Schedule cronjob is absent
@@ -57,7 +57,7 @@
     name: "Pterodactyl Panel - Schedule"
     state: absent
   register: _crontab_removal
-  # Debian 11 apparently doesn't ship with crontab, that also means that there can't be a job set up with it.
+  # Our Debian 11 image apparently doesn't ship with crontab, that also means that there can't be a job set up with it.
   # To prevent having to install crontab just to look for a job that can't exist, we overwrite the error condition
   failed_when: _crontab_removal.failed and 'Failed to find required executable' not in _crontab_removal.msg
 
@@ -68,7 +68,7 @@
     mode: "644"
     owner: root
     group: root
-  notify: restart schedule service
+  notify: Restart schedule service
 - name: Schedule timer is enabled and running
   systemd:
     daemon_reload: yes
