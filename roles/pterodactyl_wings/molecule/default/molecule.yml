@@ -37,6 +37,26 @@ platforms:
     override_command: false
     pre_build_image: true
 
+  - name: pterodactyl-wings-debian-10
+    hostname: pterodactyl-wings-debian-10.localdomain
+    image: "geerlingguy/docker-debian10-ansible"
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /var/run/docker.sock:/tmp/docker.sock
+    privileged: true
+    override_command: false
+    pre_build_image: true
+
+  - name: pterodactyl-wings-debian-11
+    hostname: pterodactyl-wings-debian-11.localdomain
+    image: "geerlingguy/docker-debian11-ansible"
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /var/run/docker.sock:/tmp/docker.sock
+    privileged: true
+    override_command: false
+    pre_build_image: true
+
 provisioner:
   name: ansible
   config_options:

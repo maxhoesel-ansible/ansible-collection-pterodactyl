@@ -1,0 +1,9 @@
+[Unit]
+Description=Pterodactly Panel Schedule Job
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+Restart=no
+ExecStart=/usr/bin/php {{ pterodactyl_panel_webroot }}/artisan schedule:run

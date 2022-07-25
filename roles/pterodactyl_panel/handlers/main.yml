@@ -5,6 +5,11 @@
     name: pteroq.service
     state: restarted
 
+- name: restart schedule service
+  systemd:
+    name: pterosched.service
+    state: restarted
+
 - name: restart apache2
   systemd:
     name: apache2

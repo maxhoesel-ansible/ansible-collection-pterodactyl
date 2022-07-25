@@ -9,6 +9,12 @@
     update_cache: yes
     state: absent
 
+- name: Ensure docker.com APT key is absent
+  apt_key:
+    id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+    state: absent
+    keyring: /etc/apt/keyrings/docker.gpg
+
 - name: Docker is installed from distro packages
   apt:
     update_cache: yes
