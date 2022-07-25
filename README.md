@@ -1,21 +1,20 @@
 # maxhoesel.pterodactyl
 
-![Release](https://img.shields.io/github/v/release/maxhoesel/ansible-collection-pterodactyl)
-![CI Status (Roles)](https://img.shields.io/github/workflow/status/maxhoesel/ansible-collection-pterodactyl/CI%20Roles/main)
-![License](https://img.shields.io/github/license/maxhoesel/ansible-collection-pterodactyl)
+![Release](https://img.shields.io/github/v/release/maxhoesel-ansible/ansible-collection-pterodactyl)
+![CI Status (Roles)](https://img.shields.io/github/workflow/status/maxhoesel-ansible/ansible-collection-pterodactyl/CI%20Roles/main)
+![License](https://img.shields.io/github/license/maxhoesel-ansible/ansible-collection-pterodactyl)
 
 ---
 **NOTE**
 
-This collection is still under active development and do not have an official stable release yet.
-Breaking changes may occur between minor releases (e.g. 0.2 -> 0.3) if needed.
+As this collection is still under active development, breaking changes may occur between minor releases (e.g. 0.2 -> 0.3) if needed.
 
 ---
 
-An Ansible collection to manage Pterodactyl Panel and Wings servers. This collection targets the 1.0
+An Ansible collection to manage Pterodactyl Panel and Wings servers. This collection targets the 1.X
 series of Pterodactyl software. There is no support for older versions (0.7 and before).
 
-The collection currently contains roles for installing both the panel and wings on Ubuntu systems.
+The collection currently contains roles for installing both the panel and wings on a variety of distributions.
 Modules for accessing the Pterodactyl API are planned for the future, once a Python API wrapper
 for v1.0 becomes available.
 
@@ -23,7 +22,7 @@ for v1.0 becomes available.
 
 ### Dependencies
 
-- A recent version of ansible. We test against the current and the previous major release
+- A recent version of ansible. We test against the current and the 2 previous major releases
 - Python 3.6 or newer on remote hosts and the controller
 
 ### Install via ansible-galaxy
@@ -34,12 +33,12 @@ Install this role via ansible-galaxy:
 
 You can also install the most recent version of this collection by referencing this repository.
 
-`ansible-galaxy collection install git+https://github.com/maxhoesel/ansible-collection-pterodactyl`
+`ansible-galaxy collection install git+https://github.com/maxhoesel-ansible/ansible-collection-pterodactyl`
 
 ## Usage
 
-Currently, only two roles are available: `pterodactyl_panel` and `pterodactyl_wings`.
-These roles manage installation of the respective component. See their docs for more details.
+Currently, two roles are available: `pterodactyl_panel` and `pterodactyl_wings`.
+These roles manage installation of the respective component. See their docs ([panel](https://github.com/maxhoesel-ansible/ansible-collection-pterodactyl/tree/main/roles/pterodactyl_panel), [wings](https://github.com/maxhoesel-ansible/ansible-collection-pterodactyl/tree/main/roles/pterodactyl_wings)) for more details.
 
 Let's say you want to deploy a pterodactyl installation with a panel and a few nodes.
 In this case, your inventory probably looks a little like this:
@@ -60,9 +59,10 @@ all:
 
 First, let's install the panel using the `pterodactyl_panel` role. There's a few things do to first though:
 
-- Make sure that your host meets the requirements of `pterodactyl_panel` (see the roles README for details)
-- Create and prepare a MySQL/MariaDB database + user for the panel (you can use another ansible role/collection for this)
-- Create and save a SSL certificate to the remote host. You can use Let's Encrypt or create your own self-signed cert (for internal use, make sure that all your hosts trust that cert!)
+- Make sure that your host meets the requirements of `pterodactyl_panel` (see the roles [README](https://github.com/maxhoesel-ansible/ansible-collection-pterodactyl/tree/main/roles/pterodactyl_panel) for details.)
+- Create and prepare a MySQL/MariaDB database + user for the panel (you can use [geerlingguy's role](https://github.com/geerlingguy/ansible-role-mysql) for this).
+- Create and save a SSL certificate to the remote host. This will be used as the HTTPS certificate by Apache.
+  You can use Let's Encrypt or create your own self-signed cert (for internal use, make sure that all your hosts trust that cert!)
 - (Optional) Configure a SMTP server to accept outgoing mail coming from your panel. This isn't required for internal/testing setups, but still recommended
 
 Finally, we need to generate a valid App Key and HashIDs salt. These cryptographic values are required to setup the panel and should
@@ -84,8 +84,8 @@ Once that's done, you can customize and run the playbook below:
         name: maxhoesel.pterodactyl.pterodactyl_panel
       # pterodactyl_panel supports additional options, see it's README for more details.
       vars:
-        pterodactyl_panel_app_key: your-app-key-here
-        pterodactyl_panel_hashids_salt: your-salt-here
+        pterodactyl_panel_app_key: #your-app-key-here
+        pterodactyl_panel_hashids_salt: #your-salt-here
         # The timezone in which the panel should operate
         pterodactyl_panel_timezone: Europe/Berlin
         # DB settings. Make sure that the database + user already exist and are accessible
@@ -93,6 +93,9 @@ Once that's done, you can customize and run the playbook below:
         pterodactyl_panel_db_name: panel
         pterodactyl_panel_db_user: pterodactyl
         pterodactyl_panel_db_password: users-db-password-here
+        # Paths to the certificate. This defaults to the Let's Encrypt directory for your hosts domain name
+        #pterodactyl_panel_ssl_cert: "/etc/letsencrypt/live/{{ ansible_fqdn }}/fullchain.pem"
+        #pterodactyl_panel_ssl_key: "/etc/letsencrypt/live/{{ ansible_fqdn }}/privkey.pem"
         # Mail server settings.
         pterodactyl_panel_mail_host: smtp.gmail.com
         pterodactyl_panel_mail_user: your-address@gmail.com
@@ -105,7 +108,7 @@ Once that's done, you can customize and run the playbook below:
         #pterodactyl_panel_admin_password: admin
 ```
 
-Once the playbook finishes your panel should be reachable under `https://panel.my.domain`.
+Once the playbook finishes running, your panel should be reachable under `https://panel.my.domain`.
 
 ### Installing Wings
 
@@ -123,7 +126,7 @@ pterodactyl_wings_token_id: node-token-id-here
 pterodactyl_wings_token: node-token-here
 ```
 
-In addition to the panel, the wings daemon also required a SSL cert and key to be present on the remote host.
+In addition to the panel, the wings daemon also requires a SSL cert and key to be present on the remote host.
 Again, you can use Let's Encrypt or a self-signed cert for internal use (make sure that all hots trust the cert).
 
 `wings.yml`:

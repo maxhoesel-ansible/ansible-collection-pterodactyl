@@ -5,16 +5,15 @@ Install and initialize a pterodactyl panel instance.
 This role follows the official installation instructions on the pterodactyl [docs homepage](https://pterodactyl.io/panel/1.0/getting_started.html).
 It will install a webserver (apache2), redis, configure the panel and add an initial admin user (User: `admin`, Password: `admin`, see vars).
 
-It does **not** setup a database for pterodactyl - you will have to supply your own MySQL/MariaDB installation.
-
 Note that this role will not upgrade an existing installation to a newer version. It only installs and configures a panel server.
 
 ## Requirements
 
 - The following distributions are currently supported:
   - Ubuntu 20.04 LTS or newer
-  - Other Debian-based distros with PHP 7.4 or higher should also work, but are not officially supported
-  - There are no plans to support CentOS/RHEL-based distros right now
+  - Other recent Debian-based distributions should work as well, but are not officially supported.
+- Make sure that your Distribution comes with a version of PHP that's [compatible with your chosen panel version](https://pterodactyl.io/panel/1.0/updating.html).
+  Note that future versions of the panel will require PHP 8.1, which is not yet available on most distros.
 - You need to supply your own MariaDB/MySQL database. See the role vars below for available parameters
 - A SSL certificate + key must already be present on the host. setting up an HTTP only panel is not supported
 - This role requires root access. Make sure to run this role with `become: yes` or equivalent
@@ -127,18 +126,35 @@ Prefix for all options: `pterodactyl_panel_admin_`
 
 ## Example Playbooks
 
-```
-# Performs a basic panel installation, with only the required variables set
+See the main [README](https://github.com/maxhoesel-ansible/ansible-collection-pterodactyl#installing-the-panel) for a more detailed example.
+
+```yaml
 # Please make sure that your keys are provided by a secure mechanism,
 # such as ansible-vault or via vars-prompt
-- hosts: all
-  roles:
-    - role: maxhoesel.pterodactyl.pterodactyl_panel
-      become: yes
+- hosts: panel
+  tasks:
+    - name: Install Pterodactyl Panel
+      include_role:
+        name: maxhoesel.pterodactyl.pterodactyl_panel
+      # pterodactyl_panel supports additional options, see it's README for more details.
       vars:
-        # App Configuration
-        pterodactyl_panel_app_key: base64:p5lrV0b2q8pkNHDRjRY0AMXHH1SeXa+Tkdo1taP6oXQ=
-        pterodactyl_panel_hashids_salt: tvUVnckEG5baX7xJLFGV
-        # Make sure that your DB is already configured
-        pterodactyl_panel_db_password: secret-db-password
+        pterodactyl_panel_app_key: #your-app-key-here
+        pterodactyl_panel_hashids_salt: #your-salt-here
+        # The timezone in which the panel should operate
+        pterodactyl_panel_timezone: Europe/Berlin
+        # DB settings. Make sure that the database + user already exist and are accessible
+        pterodactyl_panel_db_host: "127.0.0.1"
+        pterodactyl_panel_db_name: panel
+        pterodactyl_panel_db_user: pterodactyl
+        pterodactyl_panel_db_password: users-db-password-here
+        # Mail server settings.
+        pterodactyl_panel_mail_host: smtp.gmail.com
+        pterodactyl_panel_mail_user: your-address@gmail.com
+        pterodactyl_panel_mail_password: your-mail-password
+        pterodactyl_panel_mail_encryption: tls
+        # By default, the role will create a user with the credentials admin/admin.
+        # You can change these values below or in the UI once the panel is up and running
+        pterodactyl_panel_admin_mail: "your-address@gmail.com"
+        #pterodactyl_panel_admin_user: admin
+        #pterodactyl_panel_admin_password: admin
 ```

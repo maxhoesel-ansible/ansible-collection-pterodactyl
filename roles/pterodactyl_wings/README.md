@@ -9,7 +9,6 @@ This role follows the official installation instructions on the pterodactyl [doc
 - The following distributions are currently supported:
   - Ubuntu 18.04 LTS or newer
   - Newer debian distros should work too
-  - There are no plans to support CentOS/RHEL-based distros right now
 - This role requires root access. Make sure to run this role with `become: yes` or equivalent
 - Docker is required to run Wings. If docker is not present, this role will install it automatically
 - You must have already created a new node in your panel.
