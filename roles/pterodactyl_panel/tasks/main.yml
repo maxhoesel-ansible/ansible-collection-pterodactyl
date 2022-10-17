@@ -61,4 +61,5 @@
     name: pteroq.service
     enabled: yes
 
-- include_tasks: "apache2.yml"
+- name: Configure apache2
+  include_tasks: "apache2.yml"
