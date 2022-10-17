@@ -54,11 +54,12 @@
     mode: "644"
     owner: root
     group: root
-  notify: restart queue service
+  notify: Restart queue service
 - name: Queue listener service is enabled
   systemd:
     daemon_reload: yes
     name: pteroq.service
     enabled: yes
 
-- include_tasks: "apache2.yml"
+- name: Configure apache2
+  include_tasks: "apache2.yml"

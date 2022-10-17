@@ -6,9 +6,6 @@ dependency:
     role-file: molecule/default/collections/requirements.yml
 driver:
   name: docker
-  network:
-    - name: pterodactyl_panel
-      driver: bridge
 platforms:
   - name: pterodactyl-panel-db
     hostname: pterodactyl-panel-db.localdomain
@@ -20,6 +17,8 @@ platforms:
       MYSQL_DATABASE: panel_molecule
       MYSQL_USER: panel_molecule
       MYSQL_PASSWORD: panel_molecule
+    docker_networks:
+      - name: pterodactyl_panel
     networks:
       - name: pterodactyl_panel
 
@@ -33,6 +32,8 @@ platforms:
     privileged: true
     override_command: false
     pre_build_image: true
+    docker_networks:
+      - name: pterodactyl_panel
     networks:
       - name: pterodactyl_panel
     # Uncomment to access the panel from your machine.
