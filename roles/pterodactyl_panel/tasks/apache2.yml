@@ -2,7 +2,7 @@
   file:
     path: /etc/apache2/sites-enabled/000-default.conf
     state: absent
-  notify: restart apache2
+  notify: Restart apache2
 
 - name: Site config is installed
   template:
@@ -11,7 +11,7 @@
     owner: root
     group: root
     mode: "644"
-  notify: restart apache2
+  notify: Restart apache2
 
 - name: Site config is enabled
   file:
@@ -20,7 +20,7 @@
     state: link
     owner: root
     group: root
-  notify: restart apache2
+  notify: Restart apache2
 
 - name: Look for enabled rewrite module
   stat:
@@ -28,7 +28,7 @@
   register: pterodactyl_panel_apache2_rewrite
 - name: Enable rewrite module
   command: a2enmod rewrite
-  notify: restart apache2
+  notify: Restart apache2
   when: not pterodactyl_panel_apache2_rewrite.stat.exists
 
 - name: Look for enabled ssl module
@@ -37,7 +37,7 @@
   register: pterodactyl_panel_apache2_ssl
 - name: Enable rewrite module
   command: a2enmod ssl
-  notify: restart apache2
+  notify: Restart apache2
   when: not pterodactyl_panel_apache2_ssl.stat.exists
 
 - name: Apache service is enabled

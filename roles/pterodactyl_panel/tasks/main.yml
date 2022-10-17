@@ -54,7 +54,7 @@
     mode: "644"
     owner: root
     group: root
-  notify: restart queue service
+  notify: Restart queue service
 - name: Queue listener service is enabled
   systemd:
     daemon_reload: yes
