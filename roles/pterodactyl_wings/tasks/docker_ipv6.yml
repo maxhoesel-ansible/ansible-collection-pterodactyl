@@ -8,7 +8,8 @@
   register: _pterodactyl_wings_docker_daemon_config
   when: _pterodactyl_wings_docker_daemon_config_file.stat.exists
 
-- name: Apply required configuration options
+# False positive jinja error about the is skipped filter
+- name: Apply required configuration options # noqa jinja[invalid]
   set_fact:
     _pterodactyl_wings_docker_daemon_config: "{{ current_config | combine(ipv6_config) }}"
   vars:
