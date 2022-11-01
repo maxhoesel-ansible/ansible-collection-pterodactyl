@@ -4,11 +4,11 @@ ansible-core==2.13.4
 # Linting & Formatting
 ansible-lint==6.8.0
 pylint==2.15.3
-autopep8==1.7.0
+autopep8==2.0.0
 pre-commit==2.20.0
 
 # Testing
-tox==3.26.0
+tox==3.27.0
 
 # Utility packages needed for scripts
 pyyaml==6.0.0
