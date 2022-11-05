@@ -43,9 +43,8 @@ platforms:
 
 provisioner:
   name: ansible
-  config_options:
-    ssh_connection:
-      pipelining: yes
+  env:
+    ANSIBLE_PIPELINING: "True"
 
 scenario:
   test_sequence:
