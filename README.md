@@ -1,8 +1,8 @@
 # maxhoesel.pterodactyl
 
-![Release](https://img.shields.io/github/v/release/maxhoesel-ansible/ansible-collection-pterodactyl)
-![CI Status (Roles)](https://img.shields.io/github/workflow/status/maxhoesel-ansible/ansible-collection-pterodactyl/CI%20Roles/main)
-![License](https://img.shields.io/github/license/maxhoesel-ansible/ansible-collection-pterodactyl)
+![Release](https://img.shields.io/github/v/release/maxhoesel-ansible/ansible-collection-pterodactyl?style=flat-square)
+![Build Status](https://img.shields.io/circleci/build/github/maxhoesel-ansible/ansible-collection-pterodactyl/main?style=flat-square)
+![License](https://img.shields.io/github/license/maxhoesel-ansible/ansible-collection-pterodactyl?style=flat-square)
 
 ---
 **NOTE**
