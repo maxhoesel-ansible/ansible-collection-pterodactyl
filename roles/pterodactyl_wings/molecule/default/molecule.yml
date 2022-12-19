@@ -1,46 +1,54 @@
 ---
 dependency:
   name: galaxy
-  options:
-    requirements-file: molecule/default/collections/requirements.yml
-    role-file: molecule/default/collections/requirements.yml
 driver:
-  name: docker
+  name: podman
 platforms:
-  # Note on containers:
-  # - We use the images provided by geerlingguy, as they provide out-of-the-box
-  #   support for Ansible and systemd (needed to test service management).
-  # - The containers run as privileged containers so that we can
-  #   use systemd functionality. This *should* be possible with unpriliged
-  #   containers as well, but is quite the headache.
   - name: pterodactyl-wings-ubuntu-20
-    hostname: pterodactyl-wings-ubuntu-20.localdomain
-    image: "geerlingguy/docker-ubuntu2004-ansible"
+    image: "docker.io/geerlingguy/docker-ubuntu2004-ansible"
     volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-      # The wings daemon needs to connect to a docker daemon. We use a sibling setup
+      # The wings daemon needs to connect to a docker/podman daemon. We use a sibling setup
       # to allow the wings containers to access the host docker daemon by passing through the docker socket
-      # The socket is mapped to and then linked to /var/run in prepare.yml.
-      # This workaround is required due to this issue: https://github.com/ansible-community/molecule/issues/1568
-      - /var/run/docker.sock:/tmp/docker.sock
-    privileged: true
+      - /var/run/podman/podman.sock:/tmp/podman.sock
+    env:
+      # The /tmp/sock workaround is required due to this issue: https://github.com/ansible-community/molecule/issues/1568
+      DOCKER_HOST: /tmp/podman.sock
+    systemd: always
     override_command: false
     pre_build_image: true
 
   - name: pterodactyl-wings-ubuntu-18
-    hostname: pterodactyl-wings-ubuntu-18.localdomain
-    image: "geerlingguy/docker-ubuntu1804-ansible"
+    image: "docker.io/geerlingguy/docker-ubuntu1804-ansible"
     volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-      - /var/run/docker.sock:/tmp/docker.sock
-    privileged: true
+      - /var/run/podman/podman.sock:/tmp/podman.sock
+    env:
+      DOCKER_HOST: /tmp/podman.sock
+    systemd: always
+    override_command: false
+    pre_build_image: true
+
+  - name: pterodactyl-wings-debian-11
+    image: "docker.io/geerlingguy/docker-debian11-ansible"
+    volumes:
+      - /var/run/podman/podman.sock:/tmp/podman.sock
+    env:
+      DOCKER_HOST: /tmp/podman.sock
+    systemd: always
     override_command: false
     pre_build_image: true
 
 provisioner:
   name: ansible
   env:
-    ANSIBLE_PIPELINING: "True"
+    # This is required for podman to function: https://github.com/ansible-community/molecule-podman/issues/2
+    ANSIBLE_PIPELINING: false
+    #ANSIBLE_VERBOSITY: 3 # enable for debugging
+  inventory:
+    group_vars:
+      all:
+        # Don't manage the docker install when testing
+        pterodactyl_wings_docker_install: false
+        _pterodactyl_wings_systemd_dockerbind: false
 
 scenario:
   test_sequence:
