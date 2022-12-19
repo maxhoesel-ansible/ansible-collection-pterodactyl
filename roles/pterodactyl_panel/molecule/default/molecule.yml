@@ -1,15 +1,11 @@
 ---
 dependency:
   name: galaxy
-  options:
-    requirements-file: molecule/default/collections/requirements.yml
-    role-file: molecule/default/collections/requirements.yml
 driver:
-  name: docker
+  name: podman
 platforms:
-  - name: pterodactyl-panel-db
-    hostname: pterodactyl-panel-db.localdomain
-    image: mariadb
+  - name: pterodactyl-panel-ubuntu-20-db
+    image: docker.io/mariadb
     pre_build_image: true
     override_command: false
     env:
@@ -17,25 +13,63 @@ platforms:
       MYSQL_DATABASE: panel_molecule
       MYSQL_USER: panel_molecule
       MYSQL_PASSWORD: panel_molecule
-    docker_networks:
-      - name: pterodactyl_panel
-    networks:
-      - name: pterodactyl_panel
-
+    network: molecule-pterodactyl-panel
   - name: pterodactyl-panel-ubuntu-20
-    hostname: pterodactyl-panel-ubuntu-20.localdomain
-    image: "geerlingguy/docker-ubuntu2004-ansible"
+    image: "docker.io/geerlingguy/docker-ubuntu2004-ansible"
     groups:
       - panel
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    privileged: true
+      - php7
+    systemd: always
     override_command: false
     pre_build_image: true
-    docker_networks:
-      - name: pterodactyl_panel
-    networks:
-      - name: pterodactyl_panel
+    network: molecule-pterodactyl-panel
+    # Uncomment to access the panel from your machine.
+    # Useful for debugging purposes
+    #published_ports:
+    #  - 0.0.0.0:8443:443/tcp
+
+  - name: pterodactyl-panel-debian-11-db
+    image: docker.io/mariadb
+    pre_build_image: true
+    override_command: false
+    env:
+      MYSQL_ROOT_PASSWORD: panel_molecule
+      MYSQL_DATABASE: panel_molecule
+      MYSQL_USER: panel_molecule
+      MYSQL_PASSWORD: panel_molecule
+    network: molecule-pterodactyl-panel
+  - name: pterodactyl-panel-debian-11
+    image: "docker.io/geerlingguy/docker-debian11-ansible"
+    groups:
+      - panel
+      - php7
+    systemd: always
+    override_command: false
+    pre_build_image: true
+    network: molecule-pterodactyl-panel
+    # Uncomment to access the panel from your machine.
+    # Useful for debugging purposes
+    #published_ports:
+    #  - 0.0.0.0:8443:443/tcp
+
+  - name: pterodactyl-panel-ubuntu-22-db
+    image: docker.io/mariadb
+    pre_build_image: true
+    override_command: false
+    env:
+      MYSQL_ROOT_PASSWORD: panel_molecule
+      MYSQL_DATABASE: panel_molecule
+      MYSQL_USER: panel_molecule
+      MYSQL_PASSWORD: panel_molecule
+    network: molecule-pterodactyl-panel
+  - name: pterodactyl-panel-ubuntu-22
+    image: "docker.io/geerlingguy/docker-ubuntu2204-ansible"
+    groups:
+      - panel
+    systemd: always
+    override_command: false
+    pre_build_image: true
+    network: molecule-pterodactyl-panel
     # Uncomment to access the panel from your machine.
     # Useful for debugging purposes
     #published_ports:
@@ -44,7 +78,21 @@ platforms:
 provisioner:
   name: ansible
   env:
-    ANSIBLE_PIPELINING: "True"
+    # This is required for podman to function: https://github.com/ansible-community/molecule-podman/issues/2
+    ANSIBLE_PIPELINING: false
+    #ANSIBLE_VERBOSITY: 3 # enable for debugging
+  inventory:
+    group_vars:
+      all:
+        db_host: "{{ inventory_hostname }}-db"
+        db_name: panel_molecule
+        db_username: panel_molecule
+        db_password: panel_molecule
+        # Test against the latest panel version unless specified
+        panel_version: "latest"
+      php7:
+        # Install the last php7-compatible panel version for OSes with that php release
+        panel_version: "v1.10.4"
 
 scenario:
   test_sequence:
