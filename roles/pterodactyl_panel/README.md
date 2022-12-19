@@ -2,18 +2,30 @@
 
 Install and initialize a pterodactyl panel instance.
 
-This role follows the official installation instructions on the pterodactyl [docs homepage](https://pterodactyl.io/panel/1.0/getting_started.html).
-It will install a webserver (apache2), redis, configure the panel and add an initial admin user (User: `admin`, Password: `admin`, see vars).
+This role follows the official installation instructions on the pterodactyl [docs homepage](https://pterodactyl.io/panel/1.0/getting_started.html), though it is opinionated in the software chosen.
+In particular, we install:
 
-Note that this role will not upgrade an existing installation to a newer version. It only installs and configures a panel server.
+- `apache2` as the webserver
+- `libapache2-mod-php` as the PHP plugin
+- `redis` for a in-memory cache
+
+The panel itself will be installed according to the official instructions, then a user account with configurable credentials can be set up.
+
+This role also supports upgrades between panel versions, see the role variables below for details.
 
 ## Requirements
 
-- The following distributions are currently supported:
-  - Ubuntu 20.04 LTS or newer
-  - Other recent Debian-based distributions should work as well, but are not officially supported.
-- Make sure that your Distribution comes with a version of PHP that's [compatible with your chosen panel version](https://pterodactyl.io/panel/1.0/updating.html).
-  Note that future versions of the panel will require PHP 8.1, which is not yet available on most distros.
+### Distribution
+
+This role supports Debian-based distributions shipping the required apache packages.
+Your chosen distro needs to ship with a [recent enough version of PHP for your chosen panel version](https://pterodactyl.io/panel/1.0/updating.html):
+
+| Panel Version | Required PHP Version | Distros with required PHP Version | Notes |
+|---------------|----------------------|----------------------------------------------------------|-------|
+| `>=1.3,<1.8` | `7.4,8.0` | Ubuntu 20.04 LTS, Debian 11 | Not officially compatible with PHP 8.1, you might encounter issues on newer distros
+| `>=1.8,<1.11` | `7.4,8.0,8.1` | Ubuntu 20.04/22.04 LTS, Debian 11 |
+| `>=1.11` | `8.1` | Ubuntu 22.04, next Debian release (12) |
+
 - You need to supply your own MariaDB/MySQL database. See the role vars below for available parameters
 - A SSL certificate + key must already be present on the host. setting up an HTTP only panel is not supported
 - This role requires root access. Make sure to run this role with `become: yes` or equivalent
