@@ -9,3 +9,8 @@
   systemd:
     name: apache2
     state: restarted
+
+- name: Restart schedule service
+  systemd:
+    name: pterosched.service
+    state: restarted

@@ -2,12 +2,16 @@
   apt:
     name: "{{ _pterodactyl_wings_docker_stable_packages }}"
     state: absent
-
 - name: Ensure docker.com repository is absent
   apt_repository:
     repo: "deb https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
     update_cache: yes
     state: absent
+- name: Ensure docker.com APT key is absent
+  apt_key:
+    id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+    state: absent
+    keyring: /etc/apt/keyrings/docker.gpg
 
 - name: Docker is installed from distro packages
   apt:

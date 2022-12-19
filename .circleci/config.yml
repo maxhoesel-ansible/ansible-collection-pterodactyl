@@ -1,0 +1,35 @@
+version: 2.1
+
+orbs:
+  collection-testing: maxhoesel-ansible/ansible-collection-testing@0.2.3
+
+jobs:
+  modules-sanity:
+    executor: collection-testing/default
+    steps:
+      - checkout
+      - collection-testing/install-podman-on-ubuntu
+      - collection-testing/install-requirements-txt
+      - run:
+          command: tests/test-modules-sanity
+  modules-integration:
+    executor: collection-testing/default
+    steps:
+      - checkout
+      - collection-testing/install-podman-on-ubuntu
+      - collection-testing/install-requirements-txt
+      - run:
+          command: tests/test-modules-integration
+
+workflows:
+  ci:
+    jobs:
+      - collection-testing/pre-commit-lint
+      #- collection-testing/antsibull-docs:
+      #    collection-name: maxhoesel.caddy
+      - collection-testing/tox-role-scenarios:
+          parallelism: 15
+          resource-class: large
+      #- modules-sanity
+      #- modules-integration
+# VS Code Extension Version: 1.4.0
