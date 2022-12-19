@@ -10,11 +10,6 @@
       - pterodactyl_panel_db_password is defined
       - pterodactyl_panel_db_password | length > 0
 
-- name: Install depndencies
-  include_tasks: "deps.yml"
-- name: Install Redis
-  include_tasks: "redis.yml"
-
 - name: pterodactyl_panel_webroot is present
   file:
     path: "{{ pterodactyl_panel_webroot }}"
@@ -23,8 +18,53 @@
     group: www-data
     mode: "750"
 
-- name: Detect existing install and check for available upgrade
-  include_tasks: detect_install_upgrade.yml
+# This is a workaround for this: https://github.com/ansible/ansible/issues/11496
+# In short, if only some hosts are set to latest, the version get check might be sent to a host
+# that does *not* have the version set to latest, therefore resulting in it being skipped.
+# The hosts with the latest version will then be missing the response and fail.
+# Using an include gets us the intended behavior of running the version get task once if *any* host is set to latest
+- name: Get latest panel version
+  block:
+  - name: Get latest version tag from GitHub
+    include_tasks: get_version.yml
+  - name: Set panel version and download URL
+    set_fact:
+      _pterodactyl_determined_target_version: "{{ pterodactyl_panel_latest_tag }}"
+      pterodactyl_panel_download_url: "https://github.com/pterodactyl/panel/releases/download/{{ pterodactyl_panel_latest_tag }}/panel.tar.gz"
+  when: pterodactyl_panel_version == 'latest'
+- name: Set panel version and download url
+  set_fact:
+    _pterodactyl_determined_target_version: "{{ pterodactyl_panel_version }}"
+    pterodactyl_panel_download_url: "https://github.com/pterodactyl/panel/releases/download/{{ pterodactyl_panel_version }}/panel.tar.gz"
+  when: pterodactyl_panel_version != 'latest'
+
+- name: Check if install is already present
+  stat:
+    path: "{{ pterodactyl_panel_webroot }}/.env"
+  register: pterodactyl_panel_envfile
+
+- name: Detect and verify installed version
+  block:
+    - name: Get currently installed version
+      shell: 'cat {{ pterodactyl_panel_webroot }}/config/app.php  | grep "''version'' =>" | cut -d "''" -f 4'
+      changed_when: no
+      check_mode: no
+      register: pterodactyl_panel_detected_version
+    - name: Prepend v to detected version
+      set_fact:
+        pterodactyl_panel_detected_version: "v{{ pterodactyl_panel_detected_version.stdout }}"
+    - name: Don't allow a version downgrade
+      fail:
+        msg: >
+          Detected panel version '{{ pterodactyl_panel_detected_version }}' is newer than desired version '{{ _pterodactyl_determined_target_version }}'.
+          Downgrades to older versions are not supported
+      when: pterodactyl_panel_detected_version is version(_pterodactyl_determined_target_version, '>')
+  when: pterodactyl_panel_envfile.stat.exists
+
+- name: Install depndencies
+  include_tasks: "deps.yml"
+- name: Install Redis
+  include_tasks: "redis.yml"
 
 - name: .env file is installed
   template:
@@ -40,12 +80,40 @@
 
 - name: Upgrade Panel version
   include_tasks: upgrade.yml
-  when: (pterodactyl_panel_detected_version|default(pterodactyl_panel_version) != pterodactyl_panel_version)
+  when: (pterodactyl_panel_detected_version|default(_pterodactyl_determined_target_version) != _pterodactyl_determined_target_version)
 
-- name: Schedule cronjob is present
+# Schedules used to be run with cron, but we have since switched to systemd timers - make sure the old residue is gone.
+- name: Old Schedule cronjob is absent
   cron:
     name: "Pterodactyl Panel - Schedule"
-    job: "php {{ pterodactyl_panel_webroot }}/artisan schedule:run >> /dev/null 2>&1"
+    state: absent
+  register: _crontab_removal
+  # Some systems don't ship with crontab, but that also means that there can't be a job set up with it.
+  # To prevent having to install crontab just to look for a job that can't exist, we overwrite the error condition
+  failed_when: _crontab_removal.failed and 'Failed to find required executable' not in _crontab_removal.msg
+
+- name: Schedule systemd service is present
+  template:
+    src: pterosched.service.j2
+    dest: /etc/systemd/system/pterosched.service
+    mode: "644"
+    owner: root
+    group: root
+  notify: Restart schedule service
+- name: Schedule systemd timer is present
+  copy:
+    src: pterosched.timer
+    dest: /etc/systemd/system/pterosched.timer
+    owner: root
+    group: root
+    mode: "644"
+  notify: Restart schedule service
+- name: Schedule timer is enabled and running
+  systemd:
+    daemon_reload: yes
+    name: pterosched.timer
+    enabled: yes
+    state: started
 
 - name: Queue listener service is installed
   template:
