@@ -1,0 +1,15 @@
+- name: Get latest panel release information
+  uri:
+    url: https://api.github.com/repos/pterodactyl/panel/releases/latest
+    body_format: json
+    return_content: yes
+  register: pterodactyl_panel_latest_release
+  delegate_to: localhost
+  retries: 3
+  delay: 5
+  check_mode: no
+  run_once: true
+
+- name: Set latest release version
+  set_fact:
+    pterodactyl_panel_latest_tag: "{{ (pterodactyl_panel_latest_release.json.tag_name) }}"

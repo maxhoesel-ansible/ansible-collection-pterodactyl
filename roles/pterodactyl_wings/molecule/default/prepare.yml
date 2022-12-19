@@ -1,14 +1,5 @@
 - hosts: all
   tasks:
-    - name: Create docker socket symlink
-      file:
-        src: /tmp/docker.sock
-        dest: /var/run/docker.sock
-        state: link
-        owner: root
-        group: root
-        mode: "777"
-
     - name: Update APT cache and install required packages
       apt:
         name:

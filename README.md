@@ -1,15 +1,8 @@
 # maxhoesel.pterodactyl
 
-![Release](https://img.shields.io/github/v/release/maxhoesel-ansible/ansible-collection-pterodactyl)
-![CI Status (Roles)](https://img.shields.io/github/workflow/status/maxhoesel-ansible/ansible-collection-pterodactyl/CI%20Roles/main)
-![License](https://img.shields.io/github/license/maxhoesel-ansible/ansible-collection-pterodactyl)
-
----
-**NOTE**
-
-As this collection is still under active development, breaking changes may occur between minor releases (e.g. 0.2 -> 0.3) if needed.
-
----
+![Release](https://img.shields.io/github/v/release/maxhoesel-ansible/ansible-collection-pterodactyl?style=flat-square)
+![Build Status](https://img.shields.io/circleci/build/github/maxhoesel-ansible/ansible-collection-pterodactyl/main?style=flat-square)
+![License](https://img.shields.io/github/license/maxhoesel-ansible/ansible-collection-pterodactyl?style=flat-square)
 
 An Ansible collection to manage Pterodactyl Panel and Wings servers. This collection targets the 1.X
 series of Pterodactyl software. There is no support for older versions (0.7 and before).
