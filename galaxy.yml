@@ -1,12 +1,25 @@
 authors:
 - Max Hösel <ansible@maxhoesel.de>
 build_ignore:
+- .circleci
+- .github
+- tests
+- CODE_OF_CONDUCT.md
+- CONTRIBUTING.md
+- pyproject.toml
+- tox.ini
+- .yamllint
+- .ansible-lint
+- .pre-commit-config.yaml
 - '*.tar.gz'
 - .venv
-- .github
 - .tox
 - .pytest_cache
 - scripts
+- requirements.txt
+- requirements-molecule.txt
+- '**/requirements-molecule.txt'
+- '**/requirements.txt'
 dependencies: {}
 description: Manage Pterodactyl panel and wings hosts
 documentation: https://github.com/maxhoesel/ansible-collection-pterodactyl
