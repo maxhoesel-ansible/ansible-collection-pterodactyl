@@ -6,6 +6,8 @@
 - name: Get existing daemon.json
   command: cat /etc/docker/daemon.json
   register: _pterodactyl_wings_docker_daemon_config
+  changed_when: no
+  check_mode: no
   when: _pterodactyl_wings_docker_daemon_config_file.stat.exists
 
 # False positive jinja error about the is skipped filter

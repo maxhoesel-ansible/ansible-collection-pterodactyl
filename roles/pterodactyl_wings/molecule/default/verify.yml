@@ -16,3 +16,7 @@
         that:
           - 'ansible_facts.services["wings.service"].state == "running" or "dial tcp 127.0.0.1:443: connect: connection refused" in pterodactyl_wings_log.stdout'
           - ansible_facts.services["wings.service"].status == "enabled"
+      register: res
+      retries: 5
+      delay: 5
+      until: res is not failed
