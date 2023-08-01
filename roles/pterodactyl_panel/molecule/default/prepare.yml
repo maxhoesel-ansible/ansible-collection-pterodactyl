@@ -5,13 +5,20 @@
         update_cache: yes
       when: ansible_os_family == "Debian"
 
-    - name: Copy existing SSL cert/key to nodes
+    - name: SSL cert directory exists
+      ansible.builtin.file:
+        path: /etc/letsencrypt/live/{{ ansible_fqdn }}/
+        state: directory
+        owner: root
+        group: root
+        mode: "755"
+    - name: Copy existing SSL cert/key to fake letsencrypt directory
       copy:
         src: "{{ item }}"
-        dest: /etc/ssl/private/
+        dest: /etc/letsencrypt/live/{{ ansible_fqdn }}/
         owner: root
         group: root
         mode: 0755 # this is insecure, don't do this in prod
       loop:
-        - "pterodactyl.crt"
-        - "pterodactyl.key"
+        - "fullchain.pem"
+        - "privkey.pem"

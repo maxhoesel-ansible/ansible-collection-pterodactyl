@@ -129,5 +129,9 @@
     name: pteroq.service
     enabled: yes
 
+- name: Create self-signed certificate
+  ansible.builtin.include_tasks: "selfsign.yml"
+  when: pterodactyl_panel_ssl_mode == "selfsign"
+
 - name: Configure apache2
   include_tasks: "apache2.yml"

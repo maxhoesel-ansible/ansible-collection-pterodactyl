@@ -1,8 +1,4 @@
 ---
-dependency:
-  name: galaxy
-driver:
-  name: podman
 platforms:
   - name: pterodactyl-wings-ubuntu-20
     image: "docker.io/geerlingguy/docker-ubuntu2004-ansible"
@@ -38,32 +34,9 @@ platforms:
     pre_build_image: true
 
 provisioner:
-  name: ansible
-  env:
-    # This is required for podman to function: https://github.com/ansible-community/molecule-podman/issues/2
-    ANSIBLE_PIPELINING: false
-    #ANSIBLE_VERBOSITY: 3 # enable for debugging
   inventory:
     group_vars:
       all:
         # Don't manage the docker install when testing
         pterodactyl_wings_docker_install: false
         _pterodactyl_wings_systemd_dockerbind: false
-
-scenario:
-  test_sequence:
-    - lint
-    - destroy
-    - dependency
-    - syntax
-    - create
-    - prepare
-    - converge
-    - idempotence
-    - check # also run check mode in regular tests
-    - side_effect
-    - verify
-    - destroy
-
-verifier:
-  name: ansible
