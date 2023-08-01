@@ -21,8 +21,8 @@ build_ignore:
 - tox.ini
 - '**/requirements.txt'
 dependencies:
-  community.general: '>=1.0.0'
   community.crypto: '>=1.0.0'
+  community.general: '>=1.0.0'
 description: Install and configure the Pterodactyl Gaming Server Panel and Daemon/Wings
 issues: https://github.com/maxhoesel-ansible/ansible-collection-pterodactyl/issues
 license_file: LICENSE
@@ -35,4 +35,4 @@ tags:
 - application
 - gaming
 - linux
-version: '1.0.0'
+version: 0.6.0
