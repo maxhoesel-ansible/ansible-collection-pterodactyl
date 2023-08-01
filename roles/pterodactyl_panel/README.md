@@ -1,34 +1,33 @@
 # maxhoesel.pterodactyl.pterodactyl_panel
 
-Install and initialize a pterodactyl panel instance.
+Install and initialize a pterodactyl panel instance in line with the official install instructions.
 
-This role follows the official installation instructions on the pterodactyl [docs homepage](https://pterodactyl.io/panel/1.0/getting_started.html), though it is opinionated in the software chosen.
-In particular, we install:
+This role does the following:
+- Install `apache2` as the webserver with the distribution-provided (`libapache2-mod-php`) PHP runtime
+- Install `redis` for a in-memory cache
+- Optionally generate a self-signed certificate or use an existing one
+- Install the Pterodactyl Panel using Composer
+- Set up an Admin user
+- Perform upgrades between panel versions
 
-- `apache2` as the webserver
-- `libapache2-mod-php` as the PHP plugin
-- `redis` for a in-memory cache
-
-The panel itself will be installed according to the official instructions, then a user account with configurable credentials can be set up.
-
-This role also supports upgrades between panel versions, see the role variables below for details.
+There's a few things this role does *NOT* do, namely:
+- Set up a SQL Database - you can use [another role](https://github.com/geerlingguy/ansible-role-mysql) for this
+- Generate a TLS certificate using a service like Lets Encrypt
+- Install a PHP version other than the one that comes with your OS
+- Allow using a Webserver other than Apache
 
 ## Requirements
 
-### Distribution
+- You need to supply your own MariaDB/MySQL database. See the role vars below for available parameters
+- This role requires root access. Make s
+
+### Distribution and PHP
 
 This role supports Debian-based distributions shipping the required apache packages.
-Your chosen distro needs to ship with a [recent enough version of PHP for your chosen panel version](https://pterodactyl.io/panel/1.0/updating.html):
-
-| Panel Version | Required PHP Version | Distros with required PHP Version | Notes |
-|---------------|----------------------|----------------------------------------------------------|-------|
-| `>=1.3,<1.8` | `7.4,8.0` | Ubuntu 20.04 LTS, Debian 11 | Not officially compatible with PHP 8.1, you might encounter issues on newer distros
-| `>=1.8,<1.11` | `7.4,8.0,8.1` | Ubuntu 20.04/22.04 LTS, Debian 11 |
-| `>=1.11` | `8.1` | Ubuntu 22.04, next Debian release (12) |
-
-- You need to supply your own MariaDB/MySQL database. See the role vars below for available parameters
-- A SSL certificate + key must already be present on the host. setting up an HTTP only panel is not supported
-- This role requires root access. Make sure to run this role with `become: yes` or equivalent
+Your chosen distro needs to ship with a version of PHP that is compatible with the `pterodactyl_panel_version`.
+See the [Pterodactyl Upgrade docs](https://pterodactyl.io/panel/1.0/updating.html) for details.
+You can find out which version of PHP ships with which distribution [here](https://pkgs.org/download/libapache2-mod-php).
+ure to run this role with `become: yes` or equivalent
 
 ## Role Variables
 
@@ -50,17 +49,32 @@ Your chosen distro needs to ship with a [recent enough version of PHP for your c
 - Domain for which Apache2 should respond to queries
 - Default: `{{ ansible_fqdn }}`
 
+##### `pterodactyl_panel_ssl_mode`
+- Determines how the role should handle the TLS certificates for the panel
+- If set to `selfsign`, the role creates a self-signed certificate and uses it for the Panel.
+  You should only use a self-signed certificate for private use or during testing.
+  For production deployments, please use a service like Lets Encrypt to generate a valid certificate.
+- If set to `none`, the role does not manage certificates - it just loads an existing server certificate from `pterodactyl_panel_ssl_<cert/key>`.
+  You are responsible for providing such a certificate before running the role (for example via Lets Encrypt)
+- Default: `none`
+
 ##### `pterodactyl_panel_ssl_cert`
 - Certificate file for the apache2 webserver
-- This cert must already be present on the remote host
-- By default, looks for a certificate from Let's Encrypt, but you can also use a custom certificate
-- Default: `"/etc/letsencrypt/live/{{ pterodactyl_panel_domain }}/fullchain.pem"`
+- The behavior depends on `pterodactyl_panel_ssl_mode`:
+    - If `none`: This is the certificate read by the role. The file must already be present on the remote host and be readable by `www-data`.
+    - If `selfsign`: This is the path where the self-signed certificate will be stored by this role
+- Default (depends on `pterodactyl_panel_ssl_mode`):
+    - If `none`: `"/etc/letsencrypt/live/{{ pterodactyl_panel_domain }}/fullchain.pem"` (the Let's Encrypt directory)
+    - If `selfsign`: `/etc/ssl/panel-selfsign.crt`
 
 ##### `pterodactyl_panel_ssl_key`
 - Key file for the apache2 webserver
-- This key file must already be present on the remote host
-- By default, looks for a certificate from Let's Encrypt, but you can also use a custom certificate
-- Default: `"/etc/letsencrypt/live/{{ pterodactyl_panel_domain }}/privkey.pem"`
+- The behavior depends on `pterodactyl_panel_ssl_mode`:
+    - If `none`: This is the key file read by the role. The file must already be present on the remote host and be readable by `www-data`.
+    - If `selfsign`: This is the path where the self-signed key will be stored by this role
+- Default (depends on `pterodactyl_panel_ssl_mode`):
+    - If `none`: `"/etc/letsencrypt/live/{{ pterodactyl_panel_domain }}/privkey.pem"` (the Let's Encrypt directory)
+    - If `selfsign`: `/etc/ssl/panel-selfsign.key`
 
 ##### `pterodactyl_panel_upload_limit`
 - Maximum allowed upload file size for the panel
