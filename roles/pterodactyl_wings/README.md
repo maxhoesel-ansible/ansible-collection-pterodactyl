@@ -4,6 +4,11 @@ Install and initialize the pterodactyl wings daemon
 
 This role follows the official installation instructions on the pterodactyl [docs homepage](https://pterodactyl.io/wings/1.0/installing.html).
 
+## Versioning Policy
+
+This role officially supports the latest release of the Pterodactyl 1.x series.
+Older versions are supported on a best-effort basis.
+
 ## Requirements
 
 - The following distributions are currently supported:

@@ -4,8 +4,9 @@ pterodactyl_panel_version: latest
 # Apache2
 pterodactyl_panel_webroot: /var/www/pterodactyl
 pterodactyl_panel_domain: "{{ ansible_fqdn }}"
-pterodactyl_panel_ssl_cert: "/etc/letsencrypt/live/{{ pterodactyl_panel_domain }}/fullchain.pem"
-pterodactyl_panel_ssl_key: "/etc/letsencrypt/live/{{ pterodactyl_panel_domain }}/privkey.pem"
+pterodactyl_panel_ssl_mode: "none"
+pterodactyl_panel_ssl_cert: "{{ (pterodactyl_panel_ssl_mode == 'none') | ternary('/etc/letsencrypt/live/' + pterodactyl_panel_domain + '/fullchain.pem', '/etc/ssl/panel-selfsign.crt') }}"
+pterodactyl_panel_ssl_key: "{{ (pterodactyl_panel_ssl_mode == 'none') | ternary('/etc/letsencrypt/live/' + pterodactyl_panel_domain + '/privkey.pem', '/etc/ssl/panel-selfsign.key') }}"
 pterodactyl_panel_upload_limit: 100M
 
 #pterodactyl_panel_app_key:

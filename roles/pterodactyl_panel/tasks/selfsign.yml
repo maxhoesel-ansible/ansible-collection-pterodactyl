@@ -1,0 +1,15 @@
+- name: Self-signed private key is present
+  community.crypto.openssl_privatekey:
+    path: "{{ pterodactyl_panel_ssl_key }}"
+    owner: root
+    group: www-data
+    mode: "640"
+
+- name: Self-signed cert is present
+  community.crypto.x509_certificate:
+    path: "{{ pterodactyl_panel_ssl_cert }}"
+    privatekey_path: "{{ pterodactyl_panel_ssl_key }}"
+    provider: selfsigned
+    owner: root
+    group: www-data
+    mode: "644"

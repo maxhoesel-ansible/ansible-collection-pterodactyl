@@ -3,33 +3,36 @@ authors:
 build_ignore:
 - .circleci
 - .github
+- .config
+- .vscode
+- dist
 - CODE_OF_CONDUCT.md
 - CONTRIBUTING.md
-- pyproject.toml
-- tox.ini
 - .yamllint
-- .ansible-lint
-- .pre-commit-config.yaml
 - '*.tar.gz'
 - .venv
 - .tox
 - .pytest_cache
 - scripts
+- .pre-commit-config.yaml
+- .readthedocs.yaml
+- pyproject.toml
 - requirements.txt
-- requirements-molecule.txt
-- '**/requirements-molecule.txt'
+- tox.ini
 - '**/requirements.txt'
-dependencies: {}
-description: Manage Pterodactyl panel and wings hosts
-documentation: https://github.com/maxhoesel/ansible-collection-pterodactyl
-homepage: https://github.com/maxhoesel/ansible-collection-pterodactyl
-issues: https://github.com/maxhoesel/ansible-collection-pterodactyl/issues
+dependencies:
+  community.general: '>=1.0.0'
+  community.crypto: '>=1.0.0'
+description: Install and configure the Pterodactyl Gaming Server Panel and Daemon/Wings
+issues: https://github.com/maxhoesel-ansible/ansible-collection-pterodactyl/issues
 license_file: LICENSE
 name: pterodactyl
 namespace: maxhoesel
 readme: README.md
-repository: https://github.com/maxhoesel/ansible-collection-pterodactyl
+repository: https://github.com/maxhoesel-ansible/ansible-collection-pterodactyl
 tags:
 - pterodactyl
-- games
-version: 0.5.1
+- application
+- gaming
+- linux
+version: '1.0.0'
