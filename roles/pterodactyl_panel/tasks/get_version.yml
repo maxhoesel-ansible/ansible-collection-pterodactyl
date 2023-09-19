@@ -5,6 +5,7 @@
     return_content: yes
   register: pterodactyl_panel_latest_release
   delegate_to: localhost
+  become: no
   retries: 3
   delay: 5
   check_mode: no
