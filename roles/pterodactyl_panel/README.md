@@ -25,7 +25,7 @@ Other versions are supported on a best-effort basis.
 ## Requirements
 
 - You need to supply your own MariaDB/MySQL database. See the role vars below for available parameters
-- This role requires root access. Make sure it is run with `become: true`
+- This role requires root access. Make sure it is run with `become: true` or equivalent
 
 ### Distribution and PHP
 
