@@ -1,5 +1,18 @@
 ---
 platforms:
+  - name: pterodactyl-wings-ubuntu-22
+    image: "docker.io/geerlingguy/docker-ubuntu2204-ansible"
+    volumes:
+      # The wings daemon needs to connect to a docker/podman daemon. We use a sibling setup
+      # to allow the wings containers to access the host docker daemon by passing through the docker socket
+      - /var/run/podman/podman.sock:/tmp/podman.sock
+    env:
+      # The /tmp/sock workaround is required due to this issue: https://github.com/ansible-community/molecule/issues/1568
+      DOCKER_HOST: /tmp/podman.sock
+    systemd: always
+    override_command: false
+    pre_build_image: true
+
   - name: pterodactyl-wings-ubuntu-20
     image: "docker.io/geerlingguy/docker-ubuntu2004-ansible"
     volumes:
@@ -13,8 +26,8 @@ platforms:
     override_command: false
     pre_build_image: true
 
-  - name: pterodactyl-wings-ubuntu-18
-    image: "docker.io/geerlingguy/docker-ubuntu1804-ansible"
+  - name: pterodactyl-wings-debian-12
+    image: "docker.io/geerlingguy/docker-debian12-ansible"
     volumes:
       - /var/run/podman/podman.sock:/tmp/podman.sock
     env:
@@ -25,6 +38,16 @@ platforms:
 
   - name: pterodactyl-wings-debian-11
     image: "docker.io/geerlingguy/docker-debian11-ansible"
+    volumes:
+      - /var/run/podman/podman.sock:/tmp/podman.sock
+    env:
+      DOCKER_HOST: /tmp/podman.sock
+    systemd: always
+    override_command: false
+    pre_build_image: true
+
+  - name: pterodactyl-wings-debian-10
+    image: "docker.io/geerlingguy/docker-debian10-ansible"
     volumes:
       - /var/run/podman/podman.sock:/tmp/podman.sock
     env:
