@@ -1,6 +1,0 @@
-- hosts: panel
-  tasks:
-    - name: Update APT cache
-      apt:
-        update_cache: yes
-      when: ansible_os_family == "Debian"

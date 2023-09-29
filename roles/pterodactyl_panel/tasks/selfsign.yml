@@ -5,9 +5,19 @@
     group: www-data
     mode: "640"
 
+- name: Signing request (CSR) for self-signed certificate
+  community.crypto.openssl_csr_pipe:
+    privatekey_path: "{{ pterodactyl_panel_ssl_key }}"
+    common_name: "{{ pterodactyl_panel_domain }}"
+    organization_name: Pterodactyl Panel
+  register: csr
+  changed_when: no
+  check_mode: no
+
 - name: Self-signed cert is present
   community.crypto.x509_certificate:
     path: "{{ pterodactyl_panel_ssl_cert }}"
+    csr_content: "{{ csr.csr }}"
     privatekey_path: "{{ pterodactyl_panel_ssl_key }}"
     provider: selfsigned
     owner: root

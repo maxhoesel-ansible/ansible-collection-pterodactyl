@@ -79,13 +79,14 @@ platforms:
     network: molecule-pterodactyl-panel
 
 provisioner:
-  playbooks:
-    converge: ../converge.yml
-    verify: ../verify.yml
   inventory:
     group_vars:
       all:
         pterodactyl_panel_webroot: /var/www/pterodactyl-molecule
+        pterodactyl_panel_domain: "{{ ansible_fqdn }}"
+        pterodactyl_panel_ssl_mode: selfsign
+        pterodactyl_panel_ssl_cert: /etc/ssl/selfsign-test.crt
+        pterodactyl_panel_ssl_key: /etc/ssl/selfsign-test.key
         pterodactyl_panel_app_key: base64:plc67JdoBykgQPhTJV8BCu1MDAYM0QRbZt93mnh/uyE=
         pterodactyl_panel_hashids_salt: YhQ1W5XhR1cTZGMLK16a
         # DB Settings
