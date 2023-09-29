@@ -16,24 +16,24 @@ There's a few things this role does *NOT* do, namely:
 - Install a PHP version other than the one that comes with your OS
 - Allow using a Webserver other than Apache
 
-## Versioning Policy
+## Supported Distributions and Panel Versions
 
-This role officially supports the Pterodactyl 1.x series releases.
-We test against the latest version, as well as the last versions to support older PHP releases.
+This role officially supports the Pterodactyl 1.x series of releases.
+We officially support the following distributions and releases:
+
+| Distribution | PHP Version | Supported Panel Release | Note |
+|--------------|-------------|-------------------------|------|
+| Ubuntu 22.04 LTS | `8.1` | `latest` | |
+| Ubuntu 20.04 LTS | `7.4` | `<=1.10.x` | `1.10` releases are the last to support PHP 7 |
+| Debian 12 | `8.2` |`latest` | |
+| Debian 11 | `7.4` |`<=1.10.x` | `1.10` releases are the last to support PHP 7 |
+
 Other versions are supported on a best-effort basis.
 
 ## Requirements
 
 - You need to supply your own MariaDB/MySQL database. See the role vars below for available parameters
 - This role requires root access. Make sure it is run with `become: true` or equivalent
-
-### Distribution and PHP
-
-This role supports Debian-based distributions shipping the required apache packages.
-Your chosen distro needs to ship with a version of PHP that is compatible with the `pterodactyl_panel_version`.
-See the [Pterodactyl Upgrade docs](https://pterodactyl.io/panel/1.0/updating.html) for details.
-You can find out which version of PHP ships with which distribution [here](https://pkgs.org/download/libapache2-mod-php).
-ure to run this role with `become: yes` or equivalent
 
 ## Role Variables
 
