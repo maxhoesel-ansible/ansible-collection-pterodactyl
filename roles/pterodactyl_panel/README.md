@@ -25,7 +25,7 @@ Other versions are supported on a best-effort basis.
 ## Requirements
 
 - You need to supply your own MariaDB/MySQL database. See the role vars below for available parameters
-- This role requires root access. Make s
+- This role requires root access. Make sure it is run with `become: true`
 
 ### Distribution and PHP
 
@@ -164,6 +164,7 @@ See the main [README](https://github.com/maxhoesel-ansible/ansible-collection-pt
 # Please make sure that your keys are provided by a secure mechanism,
 # such as ansible-vault or via vars-prompt
 - hosts: panel
+  become: true
   tasks:
     - name: Install Pterodactyl Panel
       include_role:
