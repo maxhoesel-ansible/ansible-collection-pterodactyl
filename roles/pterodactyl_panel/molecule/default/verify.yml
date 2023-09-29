@@ -1,0 +1,14 @@
+---
+- name: Verify
+  hosts: panel
+  tasks:
+    - name: Get panel homepage
+      ansible.builtin.uri:
+        url: "https://{{ pterodactyl_panel_domain }}"
+        ca_path: "{{ pterodactyl_panel_ssl_cert }}"
+        return_content: true
+      register: page
+    - name: Verify that homepage was loaded
+      assert:
+        that:
+          - '"Pterodactyl" in page.content'
