@@ -1,0 +1,46 @@
+# Schedules used to be run with cron, but we have since switched to systemd timers - make sure the old residue is gone.
+- name: Old Schedule cronjob is absent
+  cron:
+    name: "Pterodactyl Panel - Schedule"
+    state: absent
+  register: _crontab_removal
+  # Some systems don't ship with crontab, but that also means that there can't be a job set up with it.
+  # To prevent having to install crontab just to look for a job that can't exist, we overwrite the error condition
+  failed_when: _crontab_removal.failed and 'Failed to find required executable' not in _crontab_removal.msg
+
+- name: Schedule systemd service is present
+  template:
+    src: pterosched.service.j2
+    dest: /etc/systemd/system/pterosched.service
+    mode: "644"
+    owner: root
+    group: root
+  notify: Restart schedule service
+- name: Schedule systemd timer is present
+  copy:
+    src: pterosched.timer
+    dest: /etc/systemd/system/pterosched.timer
+    owner: root
+    group: root
+    mode: "644"
+  notify: Restart schedule service
+- name: Schedule timer is enabled and running
+  systemd:
+    daemon_reload: yes
+    name: pterosched.timer
+    enabled: yes
+    state: started
+
+- name: Queue listener service is installed
+  template:
+    src: pteroq.service.j2
+    dest: /etc/systemd/system/pteroq.service
+    mode: "644"
+    owner: root
+    group: root
+  notify: Restart queue service
+- name: Queue listener service is enabled
+  systemd:
+    daemon_reload: yes
+    name: pteroq.service
+    enabled: yes

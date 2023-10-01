@@ -17,6 +17,8 @@
       - unzip
       - git
       - redis-server
+      # Needed to ensure that become_user to www-data works
+      - acl
 
 - name: Look for composer executable
   stat:

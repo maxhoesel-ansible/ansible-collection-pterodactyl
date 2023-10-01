@@ -26,7 +26,7 @@
   stat:
     path: /etc/apache2/mods-enabled/rewrite.load
   register: pterodactyl_panel_apache2_rewrite
-- name: Enable rewrite module
+- name: Enable rewrite module # noqa no-changed-when
   command: a2enmod rewrite
   notify: Restart apache2
   when: not pterodactyl_panel_apache2_rewrite.stat.exists
@@ -35,7 +35,7 @@
   stat:
     path: /etc/apache2/mods-enabled/ssl.load
   register: pterodactyl_panel_apache2_ssl
-- name: Enable rewrite module
+- name: Enable rewrite module # noqa no-changed-when
   command: a2enmod ssl
   notify: Restart apache2
   when: not pterodactyl_panel_apache2_ssl.stat.exists

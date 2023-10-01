@@ -1,0 +1,15 @@
+- name: pterodactyl_panel_webroot is present
+  file:
+    path: "{{ pterodactyl_panel_webroot }}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: "750"
+
+- name: .env file is installed
+  template:
+    src: env.j2
+    dest: "{{ pterodactyl_panel_webroot }}/.env"
+    owner: www-data
+    group: www-data
+    mode: "600"
