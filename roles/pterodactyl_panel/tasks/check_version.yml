@@ -1,0 +1,21 @@
+- name: Set panel version and download url
+  set_fact:
+    pterodactyl_panel_desired_version: "{{ pterodactyl_panel_version }}"
+    pterodactyl_panel_download_url: "https://github.com/pterodactyl/panel/releases/download/{{ pterodactyl_panel_version }}/panel.tar.gz"
+  when: pterodactyl_panel_version != 'latest'
+
+# This is a workaround for this: https://github.com/ansible/ansible/issues/11496
+# In short, we use run_once for the task to get the version from github,
+# but if only some hosts are set to latest, the version get check might be sent to a host
+# that does *not* have the version set to latest, therefore resulting in it being skipped.
+# The hosts with the latest version will then be missing the response and fail.
+# Using an include gets us the intended behavior of running the version get task once if *any* host is set to latest
+- name: Get latest panel version
+  block:
+  - name: Get latest version tag from GitHub
+    include_tasks: check_latest_version.yml
+  - name: Set panel version and download URL
+    set_fact:
+      pterodactyl_panel_desired_version: "{{ pterodactyl_panel_latest_tag }}"
+      pterodactyl_panel_download_url: "https://github.com/pterodactyl/panel/releases/download/{{ pterodactyl_panel_latest_tag }}/panel.tar.gz"
+  when: pterodactyl_panel_version == 'latest'

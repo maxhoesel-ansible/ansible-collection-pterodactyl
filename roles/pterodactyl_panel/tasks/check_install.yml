@@ -1,0 +1,25 @@
+- name: Get envfile info
+  stat:
+    path: "{{ pterodactyl_panel_webroot }}/.env"
+  register: pterodactyl_panel_envfile
+- name: Determine if install already exists
+  ansible.builtin.set_fact:
+    pterodactyl_panel_install_exists: "{{ pterodactyl_panel_envfile.stat.exists }}"
+
+- name: Detect and verify installed version
+  block:
+    - name: Get currently installed version
+      shell:
+        cmd: 'set -o pipefail && cat {{ pterodactyl_panel_webroot }}/config/app.php  | grep "''version'' =>" | cut -d "''" -f 4'
+        executable: /bin/bash
+      register: _installed_version
+      changed_when: no
+      check_mode: no
+    - name: Set currently installed version
+      ansible.builtin.set_fact:
+        pterodactyl_panel_installed_version: "v{{ _installed_version.stdout }}"
+    - name: Ensure that desired version is greater or equal to installed version
+      ansible.builtin.assert:
+        that: "pterodactyl_panel_installed_version is version(pterodactyl_panel_desired_version, '<=')"
+        fail_msg: Cannot downgrade installed panel version '{{ pterodactyl_panel_installed_version }}' to '{{ pterodactyl_panel_desired_version }}'
+  when: pterodactyl_panel_install_exists

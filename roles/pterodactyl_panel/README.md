@@ -45,11 +45,11 @@ Other versions are supported on a best-effort basis.
 - Note that the panel will automatically update itself if set to `latest`
 - Default: `latest`
 
+### Apache2
+
 ##### `pterodactyl_panel_webroot`
 - Path in which the panel should be installed
 - Default: `/var/www/pterodactyl`
-
-### Apache2
 
 ##### `pterodactyl_panel_domain`
 - Domain for which Apache2 should respond to queries
