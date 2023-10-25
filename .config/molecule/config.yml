@@ -7,6 +7,8 @@ driver:
 
 provisioner:
   name: ansible
+  env:
+    ANSIBLE_PIPELINING: true
 
 scenario:
   test_sequence:
