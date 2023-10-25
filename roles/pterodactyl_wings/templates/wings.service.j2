@@ -1,6 +1,6 @@
 [Unit]
 Description=Pterodactyl Wings Daemon
-{# Hidden switch to disable binding to the docker service for testing purposes. This service may not exist with podman. Not intended for public use #}
+{# Hidden switch to disable binding to the docker service for testing purposes. This service may not exist in a container. Not intended for public use #}
 {% if _pterodactyl_wings_systemd_dockerbind | default(true) %}
 After=docker.service
 Requires=docker.service
