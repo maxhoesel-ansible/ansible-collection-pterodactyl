@@ -9,7 +9,7 @@ import pytest
 from pytest_virtualenv import VirtualEnv
 import yaml
 
-NODE_PYTHON_DEFAULT_VERSION = "3.7"
+NODE_PYTHON_DEFAULT_VERSION = "3.6"
 
 with open("galaxy.yml", encoding="utf-8") as f:
     GALAXY_YML = yaml.safe_load(f)
