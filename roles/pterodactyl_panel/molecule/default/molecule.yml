@@ -20,7 +20,7 @@ platforms:
       MYSQL_ROOT_PASSWORD: panel_molecule
       MYSQL_DATABASE: panel_molecule
       MYSQL_USER: panel_molecule
-      MYSQL_PASSWORD: panel_molecule
+      MYSQL_PASSWORD: qw#F8CcMFU%m64o
     networks:
       - name: molecule-pterodactyl-panel
 
@@ -45,7 +45,7 @@ platforms:
       MYSQL_ROOT_PASSWORD: panel_molecule
       MYSQL_DATABASE: panel_molecule
       MYSQL_USER: panel_molecule
-      MYSQL_PASSWORD: panel_molecule
+      MYSQL_PASSWORD: qw#F8CcMFU%m64o
     networks:
       - name: molecule-pterodactyl-panel
 
@@ -69,7 +69,7 @@ platforms:
       MYSQL_ROOT_PASSWORD: panel_molecule
       MYSQL_DATABASE: panel_molecule
       MYSQL_USER: panel_molecule
-      MYSQL_PASSWORD: panel_molecule
+      MYSQL_PASSWORD: qw#F8CcMFU%m64o
     networks:
       - name: molecule-pterodactyl-panel
 
@@ -94,7 +94,7 @@ platforms:
       MYSQL_ROOT_PASSWORD: panel_molecule
       MYSQL_DATABASE: panel_molecule
       MYSQL_USER: panel_molecule
-      MYSQL_PASSWORD: panel_molecule
+      MYSQL_PASSWORD: qw#F8CcMFU%m64o
     networks:
       - name: molecule-pterodactyl-panel
 
@@ -113,7 +113,7 @@ provisioner:
         pterodactyl_panel_db_host: "{{ inventory_hostname }}-db"
         pterodactyl_panel_db_name: panel_molecule
         pterodactyl_panel_db_user: panel_molecule
-        pterodactyl_panel_db_password: panel_molecule
+        pterodactyl_panel_db_password: qw#F8CcMFU%m64o
         # Test against the latest panel version unless specified
         pterodactyl_panel_version: "latest"
       php7:
