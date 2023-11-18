@@ -37,7 +37,8 @@ pterodactyl_panel_admin_password: admin
 pterodactyl_panel_admin_firstname: Admin
 pterodactyl_panel_admin_lastname: Admin
 
-pterodactyl_panel_backup_enable: no
+# this var was renamed, preserve compatibility
+pterodactyl_panel_backup_configure: "{{ pterodactyl_panel_backup_enable | default(false) }}"
 pterodactyl_panel_backup_driver: s3
 
 pterodactyl_panel_aws_endpoint: ""
