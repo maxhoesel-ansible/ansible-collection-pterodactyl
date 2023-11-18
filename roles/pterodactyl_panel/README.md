@@ -138,22 +138,34 @@ Prefix for all options: `pterodactyl_panel_admin_`
 
 #### Backups
 
-##### `pterodactyl_panel_backup_enable`
-- Whether to enable the backup system for servers
-- If disabled, no backup settings will be added to the panel configuration file
+##### `pterodactyl_panel_backup_configure`
+- Whether to configure the backup settings in the .env server settings file
+- If disabled, the default panel configuration for backups (local backups on the `wings` nodes) will be used
 - Default: `false`
 
 ##### `pterodactyl_panel_backup_driver`
-- The driver to use for backups
+- Only has an effect if `pterodactyl_panel_backup_configure` is set to `true`
+- Choice of backup driver for the pterodactyl panel
+- Choices are:
+    - `wings` (the default if `pterodactyl_panel_backup_configure` is `false`)
+    - `s3` for S3 backup storage
 - Default: `s3`
 
 ##### S3 Storage
-- `pterodactyl_panel_aws_endpoint: ""`
-- `pterodactyl_panel_aws_default_region: ""`
-- `pterodactyl_panel_aws_access_key_id: ""`
-- `pterodactyl_panel_aws_secret_access_key: ""`
-- `pterodactyl_panel_aws_backups_bucket: ""`
 
+The following variables are available for configuring the S3 backup driver.
+Adjust them as needed.
+
+Prefix: `pterodactyl_panel_aws_`
+
+| Name | Description | Default |
+|------|-------------|---------|
+| `endpoint` | S3 Endpoint | `""` |
+| `default_region` | S3 region such as `us-east-1` | `""` |
+| `access_key_id` | ID of your access key | `""` |
+| `secret_access_key` | The secret belonging to your access key | `""` |
+| `backups_bucket` | Name of the bucket to store the backups in | `""` |
+| `use_path_style_endpoint` | Use `domain.com/bucket`-style endpoints instead of the default `bucket.domain.com` | `false` |
 
 #### Other
 
