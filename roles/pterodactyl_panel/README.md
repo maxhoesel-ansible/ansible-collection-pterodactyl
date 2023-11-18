@@ -155,6 +155,14 @@ Prefix for all options: `pterodactyl_panel_admin_`
 - `pterodactyl_panel_aws_backups_bucket: ""`
 
 
+#### Other
+
+##### `pterodactyl_panel_environment_only`
+- If set to `false`, allow admins to change `.env` file settings from the admin UI.
+- Please note that changing settings this way is **NOT** supported by this role and may cause issues.
+- It is recommended that you leave this setting on `true` unless you know what you are doing
+- Default: `true`
+
 ## Example Playbooks
 
 See the main [README](https://github.com/maxhoesel-ansible/ansible-collection-pterodactyl#installing-the-panel) for a more detailed example.
