@@ -1,3 +1,4 @@
+{% if pterodactyl_panel_ssl_mode != "none" %}
 <VirtualHost *:80>
   ServerName {{ pterodactyl_panel_domain }}
   RewriteEngine On
@@ -17,3 +18,15 @@
   SSLCertificateFile {{ pterodactyl_panel_ssl_cert }}
   SSLCertificateKeyFile {{ pterodactyl_panel_ssl_key }}
 </VirtualHost>
+{% else %}
+<VirtualHost *:80>
+  ServerName {{ pterodactyl_panel_domain }}
+  DocumentRoot "{{ pterodactyl_panel_webroot }}/public"
+  php_value upload_max_filesize {{ pterodactyl_panel_upload_limit }}
+  php_value post_max_size {{ pterodactyl_panel_upload_limit }}
+  <Directory "{{ pterodactyl_panel_webroot }}/public">
+    AllowOverride all
+    Require all granted
+  </Directory>
+</VirtualHost>
+{% endif %}
