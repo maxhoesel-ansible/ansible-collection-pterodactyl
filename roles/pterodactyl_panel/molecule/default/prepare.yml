@@ -4,3 +4,12 @@
       apt:
         update_cache: yes
       when: ansible_os_family == "Debian"
+
+    # the geerlingguy images apparently use systemd-cron instead of the regular cron used on ubuntu by default,
+    # this causes module failures with the cron module as systemd-cron has different return codes
+    - name: Ensure systemd-cron is absent
+      ansible.builtin.apt:
+        name:
+          - systemd-cron
+        state: absent
+      when: ansible_os_family == "Debian"

@@ -1,12 +1,19 @@
+- name: Look for crontab executable
+  #"command" is a shell builtin, hence the need for the shell module
+  shell: "command -v crontab"
+  register: _crontab_install
+  # dash (Debian sh shell) uses 127 instead of 1 for not found errors
+  failed_when: _crontab_install.rc not in [0,1,127]
+  changed_when: no
+  check_mode: no
+
 # Schedules used to be run with cron, but we have since switched to systemd timers - make sure the old residue is gone.
 - name: Old Schedule cronjob is absent
   cron:
     name: "Pterodactyl Panel - Schedule"
     state: absent
   register: _crontab_removal
-  # Some systems don't ship with crontab, but that also means that there can't be a job set up with it.
-  # To prevent having to install crontab just to look for a job that can't exist, we overwrite the error condition
-  failed_when: _crontab_removal.failed and 'Failed to find required executable' not in _crontab_removal.msg
+  when: _crontab_install.rc == 0
 
 - name: Schedule systemd service is present
   template:
