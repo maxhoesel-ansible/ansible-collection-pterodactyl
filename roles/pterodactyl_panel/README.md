@@ -18,12 +18,11 @@ There's a few things this role does *NOT* do, namely:
 
 ## Supported Distributions and Panel Versions
 
-This role supports the Pterodactyl 1.x series of releases.
+This role officially supports the Pterodactyl 1.x series of releases.
 We officially support the following distributions and releases:
 
 | Distribution | PHP Version | Supported Panel Release | Note |
 |--------------|-------------|-------------------------|------|
-| Ubuntu 24.04 LTS | `8.3` | `latest` | |
 | Ubuntu 22.04 LTS | `8.1` | `latest` | |
 | Ubuntu 20.04 LTS | `7.4` | `<=1.10.x` | `1.10` releases are the last to support PHP 7 |
 | Debian 12 | `8.2` |`latest` | |
