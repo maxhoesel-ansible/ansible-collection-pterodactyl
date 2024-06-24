@@ -33,7 +33,7 @@ ansible-pygments==0.1.1
     #   -r requirements.in
     #   antsibull-docs
     #   sphinx-ansible-theme
-antsibull-changelog==0.28.0
+antsibull-changelog==0.29.0
     # via antsibull-docs
 antsibull-core==3.0.1
     # via antsibull-docs
@@ -100,7 +100,7 @@ docutils==0.20.1
     #   sphinx-rtd-theme
 enrich==1.2.7
     # via molecule
-filelock==3.15.1
+filelock==3.15.4
     # via
     #   ansible-lint
     #   virtualenv
@@ -116,7 +116,7 @@ idna==3.7
     #   yarl
 imagesize==1.4.1
     # via sphinx
-importlib-metadata==7.1.0
+importlib-metadata==7.2.1
     # via ansible-lint
 iniconfig==2.0.0
     # via pytest
@@ -296,7 +296,7 @@ sphinxcontrib-qthelp==1.0.7
     # via sphinx
 sphinxcontrib-serializinghtml==1.1.10
     # via sphinx
-subprocess-tee==0.4.1
+subprocess-tee==0.4.2
     # via
     #   ansible-compat
     #   ansible-lint
@@ -313,11 +313,11 @@ typing-extensions==4.12.2
     #   pydantic
     #   pydantic-core
     #   typer
-urllib3==2.2.1
+urllib3==2.2.2
     # via
     #   docker
     #   requests
-virtualenv==20.26.2
+virtualenv==20.26.3
     # via pre-commit
 wcmatch==8.5.2
     # via
