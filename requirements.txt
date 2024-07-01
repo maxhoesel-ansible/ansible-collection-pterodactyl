@@ -4,7 +4,7 @@
 #
 #    pip-compile requirements.in
 #
-aiofiles==23.2.1
+aiofiles==24.1.0
     # via antsibull-core
 aiohttp==3.9.5
     # via
@@ -39,7 +39,7 @@ antsibull-core==3.0.1
     # via antsibull-docs
 antsibull-docs==2.11.0
     # via -r requirements.in
-antsibull-docs-parser==1.0.1
+antsibull-docs-parser==1.0.2
     # via antsibull-docs
 astroid==3.2.2
     # via pylint
@@ -116,7 +116,7 @@ idna==3.7
     #   yarl
 imagesize==1.4.1
     # via sphinx
-importlib-metadata==7.2.1
+importlib-metadata==8.0.0
     # via ansible-lint
 iniconfig==2.0.0
     # via pytest
