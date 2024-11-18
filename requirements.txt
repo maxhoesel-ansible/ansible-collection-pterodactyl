@@ -10,7 +10,7 @@ aiofiles==24.1.0
     #   antsibull-fileutils
 aiohappyeyeballs==2.4.3
     # via aiohttp
-aiohttp==3.11.0
+aiohttp==3.11.2
     # via
     #   antsibull-core
     #   antsibull-docs
@@ -39,7 +39,7 @@ ansible-pygments==0.1.1
     #   sphinx-ansible-theme
 antsibull-changelog==0.31.1
     # via antsibull-docs
-antsibull-core==3.3.0
+antsibull-core==3.4.0
     # via antsibull-docs
 antsibull-docs==2.15.0
     # via -r requirements.in
@@ -342,7 +342,7 @@ wheel==0.45.0
     # via pip-tools
 yamllint==1.35.1
     # via ansible-lint
-yarl==1.17.1
+yarl==1.17.2
     # via aiohttp
 zipp==3.21.0
     # via importlib-metadata
