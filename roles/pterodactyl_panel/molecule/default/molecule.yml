@@ -28,6 +28,7 @@ platforms:
     image: "docker.io/geerlingguy/docker-ubuntu2204-ansible"
     groups:
       - panel
+      - php81
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
     cgroupns_mode: host
@@ -140,6 +141,9 @@ provisioner:
         pterodactyl_panel_db_password: qw#F8CcMFU%m64o
         # Test against the latest panel version unless specified
         pterodactyl_panel_version: "latest"
+      php81:
+        # Install the last php8.1-compatible version for ubuntu 22
+        pterodactyl_panel_version: "v1.11.9"
       php7:
         # Install the last php7-compatible panel version for older OSes
         pterodactyl_panel_version: "v1.10.4"

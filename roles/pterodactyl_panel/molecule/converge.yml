@@ -1,7 +1,0 @@
----
-- name: Converge
-  hosts: panel
-  tasks:
-    - name: "Include pterodactyl_panel"
-      include_role:
-        name: "pterodactyl_panel"
