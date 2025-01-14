@@ -30,32 +30,9 @@
     mode: "755"
   notify: restart wings
 
-- name: Look for existing config file
-  stat:
-    path: "{{ pterodactyl_wings_config_dir }}/config.yml"
-  register: _pterodactyl_wings_config_file
-
-- name: Generate Wings Config
-  block:
-    - name: Read current configuration
-      command: "cat {{ pterodactyl_wings_config_dir }}/config.yml"
-      register: _pterodactyl_wings_config_current
-      changed_when: no
-      check_mode: no
-    - name: Merge existing configuration new config
-      set_fact:
-        pterodactyl_wings_config: "{{ _pterodactyl_wings_config_current.stdout | from_yaml | combine(pterodactyl_wings_config, recursive=True) }}"
-  when: _pterodactyl_wings_config_file.stat.exists
-
-- name: Wings config file is installed
-  template:
-    src: config.yml.j2
-    dest: "{{ pterodactyl_wings_config_dir }}/config.yml"
-    owner: root
-    group: root
-    mode: 0640
-  notify: restart wings
-  when: (_pterodactyl_wings_config_current.stdout|from_yaml)|default({}) != pterodactyl_wings_config
+- name: Configure Wings
+  ansible.builtin.include_tasks: config.yml
+  when: pterodactyl_wings_config_install
 
 - name: Wings service file is present
   template:
@@ -66,11 +43,18 @@
     mode: 0644
   notify: restart wings
 
-- name: Wings is enabled and running
-  systemd:
+- name: Wings is enabled
+  ansible.builtin.systemd:
     daemon_reload: yes
     name: wings.service
     enabled: yes
+  tags:
+    - molecule-idempotence-notest
+
+- name: Wings is started
+  systemd:
+    name: wings.service
     state: started
   tags:
     - molecule-idempotence-notest
+  when: pterodactyl_wings_start
