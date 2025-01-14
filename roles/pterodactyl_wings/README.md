@@ -31,6 +31,10 @@ Older versions are supported on a best-effort basis.
 - Directory in which the config file is stored
 - Default: `/etc/pterodactyl`
 
+##### `pterodactyl_wings_start`
+- Start the wings service at the end of this role
+- Default `true`
+
 ### Docker
 
 ##### `pterodactyl_wings_docker_install`
@@ -64,6 +68,8 @@ Older versions are supported on a best-effort basis.
 - Default: `latest`
 
 ### Wings Configuration
+
+This role can manage your wings config if `pterodactyl_wings_config_install` is enabled (default).
 
 The `pterodactyl_wings_config` is a dictionary representing the configuration file of the wings daemon. This configuration
 will be merged with any existing configuration already present on the node.
