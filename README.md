@@ -16,7 +16,7 @@ for v1.0 becomes available.
 ### Dependencies
 
 - A recent version of ansible. We test against the current and the previous major release
-- Python 3.7 or newer on remote hosts and the controller
+- Python 3.9 or newer on remote hosts
 
 ### Install via ansible-galaxy
 
