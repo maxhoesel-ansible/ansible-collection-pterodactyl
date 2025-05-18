@@ -49,31 +49,6 @@ platforms:
     networks:
       - name: molecule-pterodactyl-panel
 
-  - name: pterodactyl-panel-ubuntu-20
-    image: "docker.io/geerlingguy/docker-ubuntu2004-ansible"
-    groups:
-      - panel
-      - php7
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:rw
-    cgroupns_mode: host
-    privileged: true
-    override_command: false
-    pre_build_image: true
-    networks:
-      - name: molecule-pterodactyl-panel
-  - name: pterodactyl-panel-ubuntu-20-db
-    image: docker.io/mariadb
-    pre_build_image: true
-    override_command: false
-    env:
-      MYSQL_ROOT_PASSWORD: panel_molecule
-      MYSQL_DATABASE: panel_molecule
-      MYSQL_USER: panel_molecule
-      MYSQL_PASSWORD: qw#F8CcMFU%m64o
-    networks:
-      - name: molecule-pterodactyl-panel
-
   - name: pterodactyl-panel-debian-12
     image: "docker.io/geerlingguy/docker-debian12-ansible"
     groups:
