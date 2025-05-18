@@ -11,12 +11,19 @@
       changed_when: no
       register: pterodactyl_wings_log
 
-    - name: Verify that wings service is running and enabled
-      assert:
-        that:
-          - 'ansible_facts.services["wings.service"].state == "running" or "dial tcp 127.0.0.1:443: connect: connection refused" in pterodactyl_wings_log.stdout'
-          - ansible_facts.services["wings.service"].status == "enabled"
-      register: res
-      retries: 5
-      delay: 5
-      until: res is not failed
+    - name: Verify wings is running
+      block:
+      - name: Verify that wings service is running and enabled
+        assert:
+          that:
+            - 'ansible_facts.services["wings.service"].state == "running" or "dial tcp 127.0.0.1:443: connect: connection refused" in pterodactyl_wings_log.stdout'
+            - ansible_facts.services["wings.service"].status == "enabled"
+        register: res
+        retries: 5
+        delay: 5
+        until: res is not failed
+      always:
+      - name: Print failed wings journal log
+        ansible.builtin.debug:
+          msg: "Failed log: {{ pterodactyl_wings_log.stdout }}"
+        when: res is failed
