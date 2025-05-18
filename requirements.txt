@@ -30,7 +30,7 @@ ansible-core==2.18.1
     #   ansible-compat
     #   ansible-lint
     #   molecule
-ansible-lint==24.12.2
+ansible-lint==25.4.0
     # via -r requirements.in
 ansible-pygments==0.1.1
     # via
@@ -61,7 +61,7 @@ attrs==24.3.0
     #   aiohttp
     #   jsonschema
     #   referencing
-autopep8==2.3.1
+autopep8==2.3.2
     # via -r requirements.in
 babel==2.16.0
     # via sphinx
@@ -242,8 +242,9 @@ pyyaml==6.0.2
     #   molecule
     #   pre-commit
     #   yamllint
-referencing==0.35.1
+referencing==0.36.2
     # via
+    #   ansible-lint
     #   jsonschema
     #   jsonschema-specifications
 requests==2.32.3
@@ -326,6 +327,7 @@ typing-extensions==4.12.2
     # via
     #   pydantic
     #   pydantic-core
+    #   referencing
     #   typer
 urllib3==2.3.0
     # via
