@@ -22,7 +22,7 @@ pre-commit==4.2.0
 pytest==8.3.4
 docker==7.1.0
 pyyaml==6.0.2
-packaging==24.2
+packaging==25.0
 # Dependencies for executing the role scenarios.
 molecule==25.4.0
 molecule-plugins[docker]==23.7.0
