@@ -25,6 +25,7 @@ We officially support the following distributions and releases:
 |--------------|-------------|-------------------------|------|
 | Ubuntu 24.04 LTS | `8.3` | `latest` | |
 | Ubuntu 22.04 LTS | `8.1` | `<=1.11.9` | last to support PHP 8.1 |
+| Debian 13 | `8.4` |`latest` | |
 | Debian 12 | `8.2` |`latest` | |
 | Debian 11 | `7.4` |`<=1.10.x` | `1.10` releases are the last to support PHP 7 |
 

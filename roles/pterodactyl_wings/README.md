@@ -13,7 +13,7 @@ Older versions are supported on a best-effort basis.
 
 - The following distributions are currently supported:
   - Ubuntu: 22.04 LTS, 24.04 LTS
-  - Debian: 11, 12
+  - Debian: 11, 12, 13
 - This role requires root access. Make sure to run this role with `become: yes` or equivalent
 - Docker is required to run Wings. If docker is not present, this role will install it automatically
 - You must have already created a new node in your panel.
