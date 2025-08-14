@@ -30,6 +30,18 @@ platforms:
     override_command: false
     pre_build_image: true
 
+  - name: pterodactyl-wings-debian-13
+    image: "docker.io/geerlingguy/docker-debian13-ansible"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    env:
+      DOCKER_HOST: /tmp/docker.sock
+    cgroupns_mode: host
+    privileged: true
+    override_command: false
+    pre_build_image: true
+
   - name: pterodactyl-wings-debian-12
     image: "docker.io/geerlingguy/docker-debian12-ansible"
     volumes:
