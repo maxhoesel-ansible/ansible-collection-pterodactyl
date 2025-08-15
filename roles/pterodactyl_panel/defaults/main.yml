@@ -15,7 +15,11 @@ pterodactyl_panel_timezone: America/New_York
 pterodactyl_panel_locale: en
 pterodactyl_panel_egg_author: "no-reply@{{ pterodactyl_panel_domain }}"
 pterodactyl_panel_url: "https://{{ ansible_fqdn }}"
+pterodactyl_panel_theme: pterodactyl
+pterodactyl_panel_clear_tasklog: 720
+pterodactyl_panel_delete_minutes: 10
 pterodactyl_panel_environment_only: true
+pterodactyl_panel_extra_env: {}
 
 pterodactyl_panel_db_host: "127.0.0.1"
 pterodactyl_panel_db_port: 3306

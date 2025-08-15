@@ -133,6 +133,8 @@ provisioner:
         pterodactyl_panel_ssl_key: /etc/ssl/selfsign-test.key
         pterodactyl_panel_app_key: base64:plc67JdoBykgQPhTJV8BCu1MDAYM0QRbZt93mnh/uyE=
         pterodactyl_panel_hashids_salt: YhQ1W5XhR1cTZGMLK16a
+        pterodactyl_panel_extra_env:
+          APP_NAME: "Hello Pterodactyl"
         # DB Settings
         pterodactyl_panel_db_host: "{{ inventory_hostname }}-db"
         pterodactyl_panel_db_name: panel_molecule

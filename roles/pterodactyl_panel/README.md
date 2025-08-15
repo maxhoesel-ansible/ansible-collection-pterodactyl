@@ -2,7 +2,7 @@
 
 Install and initialize a pterodactyl panel instance in line with the official install instructions.
 
-This role does the following:
+What this role does for you:
 - Install `apache2` as the webserver with the distribution-provided (`libapache2-mod-php`) PHP runtime
 - Install `redis` for a in-memory cache
 - Optionally generate a self-signed certificate or use an existing one
@@ -10,11 +10,9 @@ This role does the following:
 - Set up an Admin user
 - Perform upgrades between panel versions
 
-There's a few things this role does *NOT* do, namely:
-- Set up a SQL Database - you can use [another role](https://github.com/geerlingguy/ansible-role-mysql) for this
-- Generate a TLS certificate using a service like Lets Encrypt
-- Install a PHP version other than the one that comes with your OS
-- Allow using a Webserver other than Apache
+What **you** need to provide:
+- An SQL Database - you can use [another role](https://github.com/geerlingguy/ansible-role-mysql) for this
+- (Optional) A valid TLS certificate using something like [Let's Encrypt](https://github.com/geerlingguy/ansible-role-letsencrypt)
 
 ## Supported Distributions and Panel Versions
 
@@ -98,6 +96,9 @@ Prefix for all variables: `pterodactyl_panel_`
 | `locale` | Locale of the panel installation | | `en` |
 | `egg_author` | Email that should appear in egg exports | | `"no-reply@{{ pterodactyl_panel_domain }}"` |
 | `url` | URL under which the panel is reachable. If you're behind a reverse proxy, set this to the externally visible URL | | `"https://{{ ansible_fqdn }}"` |
+| `theme` | App theme | | `pterodactyl` |
+| `clear_tasklog` | N/A | | `720` |
+| `delete_minutes` | N/A | | `10` |
 
 #### Database
 
@@ -107,9 +108,9 @@ Prefix for all options: `pterodactyl_panel_db_`
 |------|-------------|:--------:|---------|
 | `host` | Hostname of the DB server | | `"127.0.0.1"` |
 | `port` | Port of the DB host | | `3306` |
-| `name` | Name of the panel database | | `panel`
-| `user` | Username to connect as | | `pterodactyl`
-| `password` | Password for the user | X | undefined
+| `name` | Name of the panel database | | `panel` |
+| `user` | Username to connect as | | `pterodactyl` |
+| `password` | Password for the user | X | undefined |
 
 #### Mail
 
@@ -122,8 +123,8 @@ Prefix for all options: `pterodactyl_panel_mail_`
 | `user` | Username to connect as | | `""` |
 | `password` | Password for the user | | `""` |
 | `encryption` | Type of encryption to use. Can be "tls", "ssl" or "" for no encryption. | | `""` |
-| `from` | Address to send mails from | | `"no-reply@{{ ansible_fqdn }}"`
-| `from_name` | Display name of the sender | | `Pterodactyl Panel`
+| `from` | Address to send mails from | | `"no-reply@{{ ansible_fqdn }}"` |
+| `from_name` | Display name of the sender | | `Pterodactyl Panel` |
 
 #### Admin User
 
@@ -175,6 +176,18 @@ Prefix: `pterodactyl_panel_aws_`
 - Please note that changing settings this way is **NOT** supported by this role and may cause issues.
 - It is recommended that you leave this setting on `true` unless you know what you are doing
 - Default: `true`
+
+#### `pterodactyl_panel_extra_env`
+- Optionally pass additional options to the env file
+- You can use this to set values not covered above, such as reCAPTCHA settings
+- Expects a string dictionary with the key as the variable name
+- Example:
+  ```yaml
+  pterodactyl_panel_extra_env:
+    APP_NAME: "Custom Panel"
+    APP_2FA_REQUIRED: true
+  ```
+- Default: `{}`
 
 ## Example Playbooks
 
