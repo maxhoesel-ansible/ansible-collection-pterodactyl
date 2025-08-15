@@ -12,3 +12,10 @@
       assert:
         that:
           - '"Pterodactyl" in page.content'
+
+    - name: Get Pterodactyl env file # noqa no-changed-when
+      ansible.builtin.command: cat {{ pterodactyl_panel_webroot }}/.env
+      register: _pterodactyl_panel_enffile
+    - name: Print pterodactyl env file
+      debug:
+        var: _pterodactyl_panel_enffile

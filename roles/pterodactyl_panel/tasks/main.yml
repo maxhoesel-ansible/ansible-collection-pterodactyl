@@ -9,11 +9,11 @@
 
 - name: Install dependencies
   ansible.builtin.include_tasks: panel_deps.yml
-- name: Prepare Panel install
-  ansible.builtin.include_tasks: panel_prepare.yml
-
 - name: Configure Redis
   ansible.builtin.include_tasks: redis.yml
+
+- name: Prepare Panel install
+  ansible.builtin.include_tasks: panel_config.yml
 
 - name: Install panel
   ansible.builtin.include_tasks: panel_install.yml
