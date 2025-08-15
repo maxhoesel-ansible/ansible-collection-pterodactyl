@@ -1,8 +1,9 @@
 - name: Dependency packages are installed
   package:
     name:
-      - apache2
-      - libapache2-mod-php
+      - "{% if pterodactyl_panel_webserver == 'apache2' %}apache2{% elif pterodactyl_panel_webserver == 'nginx' %}nginx{% endif %}"
+      - "{% if pterodactyl_panel_webserver == 'apache2' %}libapache2-mod-php{% elif pterodactyl_panel_webserver == 'nginx' %}php-fpm{% endif %}"
+      - php
       - php-pdo
       - php-gd
       - php-mysql
@@ -17,6 +18,5 @@
       - curl
       - unzip
       - git
-      - redis-server
       # Needed to ensure that become_user to www-data works
       - acl

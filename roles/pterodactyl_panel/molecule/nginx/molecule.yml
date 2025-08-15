@@ -1,0 +1,151 @@
+---
+platforms:
+  - name: pterodactyl-panel-ubuntu-24
+    image: "docker.io/geerlingguy/docker-ubuntu2404-ansible"
+    groups:
+      - panel
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    cgroupns_mode: host
+    privileged: true
+    override_command: false
+    pre_build_image: true
+    networks:
+      - name: molecule-pterodactyl-panel
+  - name: pterodactyl-panel-ubuntu-24-db
+    image: docker.io/mariadb
+    pre_build_image: true
+    override_command: false
+    env:
+      MYSQL_ROOT_PASSWORD: panel_molecule
+      MYSQL_DATABASE: panel_molecule
+      MYSQL_USER: panel_molecule
+      MYSQL_PASSWORD: qw#F8CcMFU%m64o
+    networks:
+      - name: molecule-pterodactyl-panel
+
+  - name: pterodactyl-panel-ubuntu-22
+    image: "docker.io/geerlingguy/docker-ubuntu2204-ansible"
+    groups:
+      - panel
+      - php81
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    cgroupns_mode: host
+    privileged: true
+    override_command: false
+    pre_build_image: true
+    networks:
+      - name: molecule-pterodactyl-panel
+  - name: pterodactyl-panel-ubuntu-22-db
+    image: docker.io/mariadb
+    pre_build_image: true
+    override_command: false
+    env:
+      MYSQL_ROOT_PASSWORD: panel_molecule
+      MYSQL_DATABASE: panel_molecule
+      MYSQL_USER: panel_molecule
+      MYSQL_PASSWORD: qw#F8CcMFU%m64o
+    networks:
+      - name: molecule-pterodactyl-panel
+
+  - name: pterodactyl-panel-debian-13
+    image: "docker.io/geerlingguy/docker-debian13-ansible"
+    groups:
+      - panel
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    cgroupns_mode: host
+    privileged: true
+    override_command: false
+    pre_build_image: true
+    networks:
+      - name: molecule-pterodactyl-panel
+  - name: pterodactyl-panel-debian-13-db
+    image: docker.io/mariadb
+    pre_build_image: true
+    override_command: false
+    env:
+      MYSQL_ROOT_PASSWORD: panel_molecule
+      MYSQL_DATABASE: panel_molecule
+      MYSQL_USER: panel_molecule
+      MYSQL_PASSWORD: qw#F8CcMFU%m64o
+    networks:
+      - name: molecule-pterodactyl-panel
+
+  - name: pterodactyl-panel-debian-12
+    image: "docker.io/geerlingguy/docker-debian12-ansible"
+    groups:
+      - panel
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    cgroupns_mode: host
+    privileged: true
+    override_command: false
+    pre_build_image: true
+    networks:
+      - name: molecule-pterodactyl-panel
+  - name: pterodactyl-panel-debian-12-db
+    image: docker.io/mariadb
+    pre_build_image: true
+    override_command: false
+    env:
+      MYSQL_ROOT_PASSWORD: panel_molecule
+      MYSQL_DATABASE: panel_molecule
+      MYSQL_USER: panel_molecule
+      MYSQL_PASSWORD: qw#F8CcMFU%m64o
+    networks:
+      - name: molecule-pterodactyl-panel
+
+  - name: pterodactyl-panel-debian-11
+    image: "docker.io/geerlingguy/docker-debian11-ansible"
+    groups:
+      - panel
+      - php7
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    cgroupns_mode: host
+    privileged: true
+    override_command: false
+    pre_build_image: true
+    networks:
+      - name: molecule-pterodactyl-panel
+  - name: pterodactyl-panel-debian-11-db
+    image: docker.io/mariadb
+    pre_build_image: true
+    override_command: false
+    env:
+      MYSQL_ROOT_PASSWORD: panel_molecule
+      MYSQL_DATABASE: panel_molecule
+      MYSQL_USER: panel_molecule
+      MYSQL_PASSWORD: qw#F8CcMFU%m64o
+    networks:
+      - name: molecule-pterodactyl-panel
+
+provisioner:
+  inventory:
+    group_vars:
+      all:
+        pterodactyl_panel_webserver: nginx
+        pterodactyl_panel_webroot: /var/www/pterodactyl-molecule
+        pterodactyl_panel_domain: "{{ ansible_fqdn }}"
+        pterodactyl_panel_ssl_mode: selfsign
+        pterodactyl_panel_ssl_cert: /etc/ssl/selfsign-test.crt
+        pterodactyl_panel_ssl_key: /etc/ssl/selfsign-test.key
+        pterodactyl_panel_app_key: base64:plc67JdoBykgQPhTJV8BCu1MDAYM0QRbZt93mnh/uyE=
+        pterodactyl_panel_hashids_salt: YhQ1W5XhR1cTZGMLK16a
+        pterodactyl_panel_extra_env:
+          APP_NAME: "Hello Pterodactyl"
+        # DB Settings
+        pterodactyl_panel_db_host: "{{ inventory_hostname }}-db"
+        pterodactyl_panel_db_name: panel_molecule
+        pterodactyl_panel_db_user: panel_molecule
+        pterodactyl_panel_db_password: qw#F8CcMFU%m64o
+        # Test against the latest panel version unless specified
+        pterodactyl_panel_version: "latest"
+      php81:
+        # Install the last php8.1-compatible version for ubuntu 22
+        pterodactyl_panel_version: "v1.11.9"
+      php7:
+        # Install the last php7-compatible panel version for older OSes
+        pterodactyl_panel_version: "v1.10.4"

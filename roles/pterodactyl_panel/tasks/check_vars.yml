@@ -8,3 +8,13 @@
       - pterodactyl_panel_db_password is defined
       - pterodactyl_panel_db_password | length > 0
     fail_msg: "The following parameters are required: pterodactyl_panel_app_key, pterodactyl_panel_hashids_salt, pterodactyl_panel_db_password"
+
+- name: Ensure that webserver selection is valid
+  assert:
+    that: pterodactyl_panel_webserver in ["apache2", "nginx"]
+    fail_msg: Invalid value for pterodactyl_panel_webserver. Valid options are "apache2" or "nginx"
+
+- name: Ensure that ssl mode is valid
+  assert:
+    that: pterodactyl_panel_ssl_mode in ["none", "selfsign"]
+    fail_msg: Invalid value for pterodactyl_panel_ssl_mode. Valid options are "none" or "selfsign"

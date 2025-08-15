@@ -10,6 +10,11 @@
     name: apache2
     state: restarted
 
+- name: Restart nginx
+  systemd:
+    name: nginx
+    state: restarted
+
 - name: Restart schedule service
   systemd:
     name: pterosched.service
