@@ -1,0 +1,34 @@
+- name: Default config is disabled
+  file:
+    path: /etc/nginx/sites-enabled/default.conf
+    state: absent
+  notify: Restart nginx
+
+- name: Site config is installed
+  template:
+    src: pterodactyl.conf.nginx.j2
+    dest: /etc/nginx/sites-available/pterodactyl.conf
+    owner: root
+    group: root
+    mode: "644"
+  notify: Restart nginx
+
+- name: Site config is enabled
+  file:
+    src: /etc/nginx/sites-available/pterodactyl.conf
+    dest: /etc/nginx/sites-enabled/pterodactyl.conf
+    state: link
+    owner: root
+    group: root
+  notify: Restart nginx
+
+- name: NGINX service is enabled
+  systemd:
+    name: nginx.service
+    enabled: yes
+
+- name: php-fpm is enabled and running
+  ansible.builtin.systemd:
+    name: php{{ _pterodactyl_panel_php_version }}-fpm.service
+    state: started
+    enabled: true

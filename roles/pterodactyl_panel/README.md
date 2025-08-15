@@ -3,7 +3,7 @@
 Install and initialize a pterodactyl panel instance in line with the official install instructions.
 
 What this role does for you:
-- Install `apache2` as the webserver with the distribution-provided (`libapache2-mod-php`) PHP runtime
+- Install a webserver (Apache or Nginx) with the distribution-provided PHP runtime
 - Install `redis` for a in-memory cache
 - Optionally generate a self-signed certificate or use an existing one
 - Install the Pterodactyl Panel using Composer
@@ -13,6 +13,12 @@ What this role does for you:
 What **you** need to provide:
 - An SQL Database - you can use [another role](https://github.com/geerlingguy/ansible-role-mysql) for this
 - (Optional) A valid TLS certificate using something like [Let's Encrypt](https://github.com/geerlingguy/ansible-role-letsencrypt)
+
+What this role **won't** do:
+- Set up a HTTP-only panel. If you are running a public Panel you should *always* use TLS with a valid certificate.
+  If you are running behind a reverse proxy or in a private network, you can use the `selfsign` SSL mode
+- Configure Nodes or Game Servers
+- Use non-distro PHP versions
 
 ## Supported Distributions and Panel Versions
 
@@ -44,7 +50,12 @@ Other versions are supported on a best-effort basis.
 - Note that the panel will automatically update itself if set to `latest`
 - Default: `latest`
 
-### Apache2
+### Webserver
+
+##### `pterodactyl_panel_webserver`
+- Which webserver to install the panel with.
+- Options are `apache2` and `nginx`.
+- Default: `apache2`
 
 ##### `pterodactyl_panel_webroot`
 - Path in which the panel should be installed
@@ -57,28 +68,28 @@ Other versions are supported on a best-effort basis.
 ##### `pterodactyl_panel_ssl_mode`
 - Determines how the role should handle the TLS certificates for the panel
 - If set to `selfsign`, the role creates a self-signed certificate and uses it for the Panel.
-  You should only use a self-signed certificate for private use or during testing.
+  You can use this for testing or behind a reverse proxy
   For production deployments, please use a service like Lets Encrypt to generate a valid certificate.
-- If set to `none`, the role does not manage certificates - it just loads an existing server certificate from `pterodactyl_panel_ssl_<cert/key>`.
+- If set to `unmanaged`, the role does not manage certificates - it just loads an existing server certificate from `pterodactyl_panel_ssl_<cert/key>`.
   You are responsible for providing such a certificate before running the role (for example via Lets Encrypt)
-- Default: `none`
+- Default: `unmanaged`
 
 ##### `pterodactyl_panel_ssl_cert`
 - Certificate file for the apache2 webserver
 - The behavior depends on `pterodactyl_panel_ssl_mode`:
-    - If `none`: This is the certificate read by the role. The file must already be present on the remote host and be readable by `www-data`.
+    - If `unmanaged`: This is the certificate read by the role. The file must already be present on the remote host and be readable by `www-data`.
     - If `selfsign`: This is the path where the self-signed certificate will be stored by this role. The directory must already exist.
 - Default (depends on `pterodactyl_panel_ssl_mode`):
-    - If `none`: `"/etc/letsencrypt/live/{{ pterodactyl_panel_domain }}/fullchain.pem"` (the Let's Encrypt directory)
+    - If `unmanaged`: `"/etc/letsencrypt/live/{{ pterodactyl_panel_domain }}/fullchain.pem"` (the Let's Encrypt directory)
     - If `selfsign`: `/etc/ssl/panel-selfsign.crt`
 
 ##### `pterodactyl_panel_ssl_key`
 - Key file for the apache2 webserver
 - The behavior depends on `pterodactyl_panel_ssl_mode`:
-    - If `none`: This is the key file read by the role. The file must already be present on the remote host and be readable by `www-data`.
+    - If `unmanaged`: This is the key file read by the role. The file must already be present on the remote host and be readable by `www-data`.
     - If `selfsign`: This is the path where the self-signed key will be stored by this role. The directory must already exist.
 - Default (depends on `pterodactyl_panel_ssl_mode`):
-    - If `none`: `"/etc/letsencrypt/live/{{ pterodactyl_panel_domain }}/privkey.pem"` (the Let's Encrypt directory)
+    - If `unmanaged`: `"/etc/letsencrypt/live/{{ pterodactyl_panel_domain }}/privkey.pem"` (the Let's Encrypt directory)
     - If `selfsign`: `/etc/ssl/panel-selfsign.key`
 
 ##### `pterodactyl_panel_upload_limit`

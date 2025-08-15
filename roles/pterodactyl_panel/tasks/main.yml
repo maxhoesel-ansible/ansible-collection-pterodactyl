@@ -12,6 +12,12 @@
 - name: Configure Redis
   ansible.builtin.include_tasks: redis.yml
 
+- name: Get package stats
+  ansible.builtin.package_facts:
+- name: Set php version
+  ansible.builtin.set_fact:
+    _pterodactyl_panel_php_version: "{{ ((ansible_facts.packages['php'].0.version | split(':')).1 | split('+')).0 }}"
+
 - name: Prepare Panel install
   ansible.builtin.include_tasks: panel_config.yml
 
@@ -29,6 +35,10 @@
 
 - name: Create self-signed certificate
   ansible.builtin.include_tasks: web_cert_selfsign.yml
-  when: pterodactyl_panel_ssl_mode == "selfsign"
+  when: _pterodactyl_panel_ssl_mode == "selfsign"
 - name: Configure apache2
   ansible.builtin.include_tasks: web_apache2.yml
+  when: pterodactyl_panel_webserver == "apache2"
+- name: Configure nginx
+  ansible.builtin.include_tasks: web_nginx.yml
+  when: pterodactyl_panel_webserver == "nginx"

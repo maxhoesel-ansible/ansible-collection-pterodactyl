@@ -6,7 +6,7 @@
 
 - name: Site config is installed
   template:
-    src: pterodactyl.conf.j2
+    src: pterodactyl.conf.apache2.j2
     dest: /etc/apache2/sites-available/pterodactyl.conf
     owner: root
     group: root
