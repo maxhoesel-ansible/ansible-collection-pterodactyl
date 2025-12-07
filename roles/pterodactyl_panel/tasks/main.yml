@@ -39,7 +39,7 @@
   when: _pterodactyl_panel_ssl_mode == "selfsign"
 - name: Configure apache2
   ansible.builtin.include_tasks: web_apache2.yml
-  when: pterodactyl_panel_webserver == "apache2"
+  when: pterodactyl_panel_manage_webserver and pterodactyl_panel_webserver == "apache2"
 - name: Configure nginx
   ansible.builtin.include_tasks: web_nginx.yml
-  when: pterodactyl_panel_webserver == "nginx"
+  when: pterodactyl_panel_manage_webserver and pterodactyl_panel_webserver == "nginx"
