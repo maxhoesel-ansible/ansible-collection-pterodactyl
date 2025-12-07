@@ -9,6 +9,7 @@
 
 - name: Install dependencies
   ansible.builtin.include_tasks: panel_deps.yml
+  when: pterodactyl_panel_install_dependencies | bool
 - name: Configure Redis
   ansible.builtin.include_tasks: redis.yml
 
@@ -16,7 +17,15 @@
   ansible.builtin.package_facts:
 - name: Set php version
   ansible.builtin.set_fact:
-    _pterodactyl_panel_php_version: "{{ ((ansible_facts.packages['php'].0.version | split(':')).1 | split('+')).0 }}"
+    _pterodactyl_panel_php_version: >-
+      {{
+        (item == 'php') | ternary(
+          ansible_facts.packages[item].0.version | regex_search(':([\d\.]+)\+', '\1') | first,
+          item | regex_search('^php(\d(?:\.\d)?)', '\1') | first
+        )
+      }}
+  loop: "{{ ansible_facts.packages.keys() }}"
+  when: item | regex_search('^php(?:\d(?:\.\d)?)?$') != None
 
 - name: Prepare Panel install
   ansible.builtin.include_tasks: panel_config.yml
@@ -38,7 +47,7 @@
   when: _pterodactyl_panel_ssl_mode == "selfsign"
 - name: Configure apache2
   ansible.builtin.include_tasks: web_apache2.yml
-  when: pterodactyl_panel_webserver == "apache2"
+  when: pterodactyl_panel_manage_webserver and pterodactyl_panel_webserver == "apache2"
 - name: Configure nginx
   ansible.builtin.include_tasks: web_nginx.yml
-  when: pterodactyl_panel_webserver == "nginx"
+  when: pterodactyl_panel_manage_webserver and pterodactyl_panel_webserver == "nginx"
