@@ -1,6 +1,8 @@
 ---
 pterodactyl_panel_version: latest
 
+pterodactyl_panel_install_dependencies: true
+
 # Webserver
 pterodactyl_panel_webserver: "apache2"
 pterodactyl_panel_webroot: /var/www/pterodactyl

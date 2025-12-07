@@ -9,6 +9,7 @@
 
 - name: Install dependencies
   ansible.builtin.include_tasks: panel_deps.yml
+  when: pterodactyl_panel_install_dependencies | bool
 - name: Configure Redis
   ansible.builtin.include_tasks: redis.yml
 
