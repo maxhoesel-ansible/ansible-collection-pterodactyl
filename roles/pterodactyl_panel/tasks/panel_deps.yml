@@ -20,3 +20,5 @@
       - git
       # Needed to ensure that become_user to www-data works
       - acl
+      # Needed by newer versions of pterodactyl
+      - mariadb-client

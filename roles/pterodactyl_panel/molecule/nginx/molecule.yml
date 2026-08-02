@@ -136,6 +136,7 @@ provisioner:
         pterodactyl_panel_hashids_salt: YhQ1W5XhR1cTZGMLK16a
         pterodactyl_panel_extra_env:
           APP_NAME: "Hello Pterodactyl"
+        pterodactyl_panel_admin_mail: admin@{{ ansible_facts.fqdn }}.local
         # DB Settings
         pterodactyl_panel_db_host: "{{ inventory_hostname }}-db"
         pterodactyl_panel_db_name: panel_molecule
