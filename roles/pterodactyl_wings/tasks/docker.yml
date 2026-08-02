@@ -1,5 +1,11 @@
-- name: Install docker from {{ pterodactyl_wings_docker_source }}
-  include_tasks: "docker_{{ pterodactyl_wings_docker_source }}.yml"
+- name: Get package facts
+  ansible.builtin.package_facts:
+
+- name: Docker is installed from distro packages
+  apt:
+    update_cache: yes
+    name: docker.io
+  when: "'docker-ce' not in ansible_facts.packages" # ensure we don't override an existing upstream docker install
 
 - name: Enable IPv6 suppport
   include_tasks: docker_ipv6.yml

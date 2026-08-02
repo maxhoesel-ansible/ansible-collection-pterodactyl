@@ -38,16 +38,11 @@ Older versions are supported on a best-effort basis.
 ### Docker
 
 ##### `pterodactyl_wings_docker_install`
-- Whether to handle the docker installation.
-- Set to `false` if you already have a docker install running and don't want this role to touch anything
+- Whether to handle the docker installation using the distribution packages.
+- If the role detects an existing `docker-ce` installation, it will not make any changes to that install.
+  - This is to retain backwards-compatibility with previous releases of this collection that installed Docker from upstream.
+- Set to `false` if you already have a docker install running and don't want this role to touch anything.
 - Default: `true`
-
-##### `pterodactyl_wings_docker_source`
-- Method used to install docker
-- If set to `distro`, the Docker version provided by the distribution will be installed
-- If set to `stable`, the most recent stable version form the official Docker repositories will be installed
-- If this value is changed later, the role will automatically switch the installed Docker version. Note that this may cause downtime
-- Default: `stable`
 
 ##### `pterodactyl_wings_docker_ipv6`
 - Whether to enable IPv6 support in docker using [docker-ipv6NAT](https://github.com/robbertkl/docker-ipv6nat#usage).
