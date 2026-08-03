@@ -63,7 +63,7 @@ Other versions are supported on a best-effort basis.
 
 ##### `pterodactyl_panel_domain`
 - Domain for which Apache2 should respond to queries
-- Default: `{{ ansible_fqdn }}`
+- Default: `{{ ansible_facts.fqdn }}`
 
 ##### `pterodactyl_panel_ssl_mode`
 - Determines how the role should handle the TLS certificates for the panel
@@ -106,7 +106,7 @@ Prefix for all variables: `pterodactyl_panel_`
 | `timezone` | Timezone for the panel installation | | `America/New_York` |
 | `locale` | Locale of the panel installation | | `en` |
 | `egg_author` | Email that should appear in egg exports | | `"no-reply@{{ pterodactyl_panel_domain }}"` |
-| `url` | URL under which the panel is reachable. If you're behind a reverse proxy, set this to the externally visible URL | | `"https://{{ ansible_fqdn }}"` |
+| `url` | URL under which the panel is reachable. If you're behind a reverse proxy, set this to the externally visible URL | | `"https://{{ ansible_facts.fqdn }}"` |
 | `theme` | App theme | | `pterodactyl` |
 | `clear_tasklog` | N/A | | `720` |
 | `delete_minutes` | N/A | | `10` |
@@ -134,7 +134,7 @@ Prefix for all options: `pterodactyl_panel_mail_`
 | `user` | Username to connect as | | `""` |
 | `password` | Password for the user | | `""` |
 | `encryption` | Type of encryption to use. Can be "tls", "ssl" or "" for no encryption. | | `""` |
-| `from` | Address to send mails from | | `"no-reply@{{ ansible_fqdn }}"` |
+| `from` | Address to send mails from | | `"no-reply@{{ ansible_facts.fqdn }}"` |
 | `from_name` | Display name of the sender | | `Pterodactyl Panel` |
 
 #### Admin User
@@ -143,7 +143,7 @@ Prefix for all options: `pterodactyl_panel_admin_`
 
 | Name | Description | Required | Default |
 |------|-------------|:--------:|---------|
-| `mail` | Email address of the admin user | | `"admin@{{ ansible_fqdn }}"` |
+| `mail` | Email address of the admin user | | `"admin@{{ ansible_facts.fqdn }}"` |
 | `user` | Username for the admin | | admin |
 | `password` | Password for the admin user | | admin |
 | `firstname` | First name of the admin user | | Admin |

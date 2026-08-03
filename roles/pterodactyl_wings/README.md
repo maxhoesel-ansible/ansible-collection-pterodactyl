@@ -91,8 +91,8 @@ pterodactyl_wings_config:
     # SSL Settings, including certificate path and key. Defaults to the path used by certbot/Let's Encrypt
     ssl:
       enabled: true
-      cert: "/etc/letsencrypt/live/{{ ansible_fqdn }}/fullchain.pem"
-      key: "/etc/letsencrypt/live/{{ ansible_fqdn }}/privkey.pem"
+      cert: "/etc/letsencrypt/live/{{ ansible_facts.fqdn }}/fullchain.pem"
+      key: "/etc/letsencrypt/live/{{ ansible_facts.fqdn }}/privkey.pem"
     upload_limit: 100 # File browser upload limit in MB
   remote: https://127.0.0.1:443 # The address of the Panel
   system:
@@ -123,8 +123,8 @@ pterodactyl_wings_config:
             port: 8080
             ssl:
               enabled: true
-              cert: "/etc/letsencrypt/live/{{ ansible_fqdn }}/fullchain.pem"
-              key: "/etc/letsencrypt/live/{{ ansible_fqdn }}/privkey.pem"
+              cert: "/etc/letsencrypt/live/{{ ansible_facts.fqdn }}/fullchain.pem"
+              key: "/etc/letsencrypt/live/{{ ansible_facts.fqdn }}/privkey.pem"
             upload_limit: 100
           remote: https://mypanel.example.com:443
           system:

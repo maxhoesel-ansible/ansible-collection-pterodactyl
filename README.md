@@ -87,8 +87,8 @@ Once that's done, you can customize and run the playbook below:
         pterodactyl_panel_db_user: pterodactyl
         pterodactyl_panel_db_password: users-db-password-here
         # Paths to the certificate. This defaults to the Let's Encrypt directory for your hosts domain name
-        #pterodactyl_panel_ssl_cert: "/etc/letsencrypt/live/{{ ansible_fqdn }}/fullchain.pem"
-        #pterodactyl_panel_ssl_key: "/etc/letsencrypt/live/{{ ansible_fqdn }}/privkey.pem"
+        #pterodactyl_panel_ssl_cert: "/etc/letsencrypt/live/{{ ansible_facts.fqdn }}/fullchain.pem"
+        #pterodactyl_panel_ssl_key: "/etc/letsencrypt/live/{{ ansible_facts.fqdn }}/privkey.pem"
         # Mail server settings.
         pterodactyl_panel_mail_host: smtp.gmail.com
         pterodactyl_panel_mail_user: your-address@gmail.com
